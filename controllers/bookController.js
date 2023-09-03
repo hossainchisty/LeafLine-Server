@@ -30,7 +30,7 @@ const getBooks = asyncHandler(async (req, res) => {
 
 const getBooksList = asyncHandler(async (req, res) => {
   const page = parseInt(req.query.page) || 1; // Get the requested page number = require() query string
-  const itemsPerPage = 3; // Number of items to show per page
+  const itemsPerPage = 12; // Number of items to show per page
 
   const totalBooks = await Book.countDocuments(); // Total number of books
 
@@ -108,8 +108,8 @@ const getBookByID = asyncHandler(async (req, res) => {
 
 const addBook = asyncHandler(async (req, res) => {
   try {
-    const newPath = handleFileUpload(req);
-    const { title, author, publishYear } = req.body;
+    const { title, price, rating, featured, author, thumbnail, publishYear } =
+      req.body;
 
     const { token } = req.cookies;
     const userData = verifyAuthorization(token);
@@ -117,9 +117,12 @@ const addBook = asyncHandler(async (req, res) => {
     const bookData = {
       user: userData.id,
       title,
+      price,
+      rating,
+      featured,
       author,
+      thumbnail,
       publishYear,
-      cover: newPath,
     };
 
     const book = await Book.create(bookData);
@@ -144,12 +147,7 @@ const addBook = asyncHandler(async (req, res) => {
  */
 const updateBook = asyncHandler(async (req, res) => {
   try {
-    let newPath = null;
-    if (req.file) {
-      newPath = handleFileUpload(req);
-    }
-
-    const { id, title, author, publishYear } = req.body;
+    const { id,title, price, rating, featured, author, thumbnail, publishYear  } = req.body;
     const { token } = req.cookies;
     const info = verifyAuthorization(token);
 
@@ -172,7 +170,7 @@ const updateBook = asyncHandler(async (req, res) => {
 
     await Book.updateOne(
       { _id: id },
-      { title, author, publishYear, cover: newPath ? newPath : book.cover }
+      { title, price, rating, featured, author, thumbnail, publishYear }
     );
 
     res.status(200).json({
