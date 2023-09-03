@@ -13,17 +13,26 @@ const bookSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add a text value"],
     },
-    cover: {
+    thumbnail: {
       type: String,
     },
+    price: { type: Number, required: true},
     author: {
       type: String,
       required: true,
     },
+    rating: {
+      type: Number,
+      required: false,
+    },
+    featured: {
+      type: Boolean,
+      required: false,
+    },
     read: { type: Number },
     publishYear: {
       type: Number,
-      required: true,
+      required: false,
     },
   },
   { timestamps: true, versionKey: false }
