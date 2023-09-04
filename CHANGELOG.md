@@ -1,3 +1,12 @@
+# [1.14.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.13.0...v1.14.0) (2023-09-04)
+
+
+### Features
+
+* shopping cart functionality ([caeb427](https://github.com/hossainchisty/LeafLine-Server/commit/caeb427fe8cb88e3e164c4132e3f9c069d1d5434))
+
+
+
 # [1.13.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.12.0...v1.13.0) (2023-09-04)
 
 
