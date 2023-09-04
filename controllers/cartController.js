@@ -48,6 +48,17 @@ exports.addToCart = asyncHandler(async (req, res) => {
     // Save the cart item
     await cartItem.save();
 
+    // Calculate and update the cart's total price
+    const cartItems = await Cart.find({ userId }).populate("productId");
+    let totalPrice = 0;
+
+    for (const item of cartItems) {
+      totalPrice += item.quantity * item.productId.price;
+    }
+
+    // Update the user's cart with the new total price
+    await Cart.updateOne({ userId }, { totalPrice });
+
     res.status(201).json({
       status: 201,
       success: true,
@@ -58,6 +69,7 @@ exports.addToCart = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 });
+
 
 /**
  * @desc    Remove item from the cart
