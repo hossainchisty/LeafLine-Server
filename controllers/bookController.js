@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const Book = require("../models/bookModel");
-const handleFileUpload = require("../utility/fileManager");
 const verifyAuthorization = require("../utility/verifyAuthorization");
 
 /**
@@ -35,7 +34,6 @@ const getBooksList = asyncHandler(async (req, res) => {
   const totalBooks = await Book.countDocuments(); // Total number of books
 
   const books = await Book.find()
-    .populate("author", ["full_name"])
     .sort({ createdAt: -1 })
     .skip((page - 1) * itemsPerPage) // Calculate the number of books to skip
     .limit(itemsPerPage); // Limit the number of books to retrieve
@@ -99,6 +97,43 @@ const getBookByID = asyncHandler(async (req, res) => {
 });
 
 /**
+ * @desc    Get a book
+ * @route   /api/v1/books/:bookTitle
+ * @method  GET
+ * @access  Private
+ * @return Book based on the given title
+ */
+
+const getBookByTitle = asyncHandler(async (req, res) => {
+  const title = req.params.title;
+
+  try {
+    const book = await Book.find({
+      title: { $regex: new RegExp(title, "i") },
+    });
+
+    if (book.length === 0) {
+      return res.status(404).json({
+        status: 404,
+        message: "No books found",
+      });
+    }
+
+    return res.status(200).json({
+      status: 200,
+      data: book,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: "Internal Server Error",
+      message: "An error occurred while fetching the book.",
+    });
+  }
+});
+
+
+/**
  * @desc    Create a new book for the authenticated user
  * @route   /api/v1/books
  * @method  POST
@@ -111,11 +146,11 @@ const addBook = asyncHandler(async (req, res) => {
     const { title, price, rating, featured, author, thumbnail, publishYear } =
       req.body;
 
-    const { token } = req.cookies;
-    const userData = verifyAuthorization(token);
+    // const { token } = req.cookies;
+    // const userData = verifyAuthorization(token);
 
     const bookData = {
-      user: userData.id,
+      // user: userData.id,
       title,
       price,
       rating,
@@ -147,7 +182,16 @@ const addBook = asyncHandler(async (req, res) => {
  */
 const updateBook = asyncHandler(async (req, res) => {
   try {
-    const { id,title, price, rating, featured, author, thumbnail, publishYear  } = req.body;
+    const {
+      id,
+      title,
+      price,
+      rating,
+      featured,
+      author,
+      thumbnail,
+      publishYear,
+    } = req.body;
     const { token } = req.cookies;
     const info = verifyAuthorization(token);
 
@@ -277,6 +321,7 @@ const searchBook = asyncHandler(async (req, res) => {
 module.exports = {
   getBooks,
   getBookByID,
+  getBookByTitle,
   getBooksList,
   addBook,
   updateBook,

@@ -5,6 +5,7 @@ const {
   getBooks,
   getBookByID,
   getBooksList,
+  getBookByTitle,
   addBook,
   updateBook,
   deleteBook,
@@ -13,6 +14,8 @@ const {
 
 // API Endpoints for Managing Books
 router.get("/list", getBooksList);
+
+router.get("/:title", getBookByTitle);
 
 // Search for books by title
 router.get("/search", searchBook);
