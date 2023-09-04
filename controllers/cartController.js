@@ -70,7 +70,6 @@ exports.addToCart = asyncHandler(async (req, res) => {
   }
 });
 
-
 /**
  * @desc    Remove item from the cart
  * @route   /api/v1/cart/remove/:productId
