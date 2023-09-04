@@ -1,4 +1,4 @@
-const mongoose = require("mongoose") ;
+const mongoose = require("mongoose");
 
 // User Schema Definition
 
@@ -40,7 +40,7 @@ const userSchema = mongoose.Schema(
     },
     hasEarnedBadge: { type: Boolean, default: false },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
 const User = mongoose.model("User", userSchema);
