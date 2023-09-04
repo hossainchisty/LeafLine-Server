@@ -1,3 +1,12 @@
+# [1.13.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.12.0...v1.13.0) (2023-09-04)
+
+
+### Features
+
+* Added API to get books by title of book ([c451a0a](https://github.com/hossainchisty/LeafLine-Server/commit/c451a0a08e06992f913cfa1dfe73265b79863e1d))
+
+
+
 # [1.12.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.11.0...v1.12.0) (2023-09-03)
 
 
