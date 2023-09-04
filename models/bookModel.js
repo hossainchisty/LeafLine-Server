@@ -1,4 +1,4 @@
-const mongoose = require("mongoose") ;
+const mongoose = require("mongoose");
 
 // Book Schema Definition
 
@@ -16,7 +16,7 @@ const bookSchema = mongoose.Schema(
     thumbnail: {
       type: String,
     },
-    price: { type: Number, required: true},
+    price: { type: Number, required: true },
     author: {
       type: String,
       required: true,
@@ -35,7 +35,7 @@ const bookSchema = mongoose.Schema(
       required: false,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
 const Book = mongoose.model("Book", bookSchema);

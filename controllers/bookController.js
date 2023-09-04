@@ -70,7 +70,7 @@ const getBookByID = asyncHandler(async (req, res) => {
     const book = await Book.findByIdAndUpdate(
       id,
       { $inc: { read: 1 } }, // Increment read by 1
-      { new: true } // Return the updated document
+      { new: true }, // Return the updated document
     )
       .populate("author", ["full_name"])
       .lean();
@@ -131,7 +131,6 @@ const getBookByTitle = asyncHandler(async (req, res) => {
     });
   }
 });
-
 
 /**
  * @desc    Create a new book for the authenticated user
@@ -214,7 +213,7 @@ const updateBook = asyncHandler(async (req, res) => {
 
     await Book.updateOne(
       { _id: id },
-      { title, price, rating, featured, author, thumbnail, publishYear }
+      { title, price, rating, featured, author, thumbnail, publishYear },
     );
 
     res.status(200).json({
