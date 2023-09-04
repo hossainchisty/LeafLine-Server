@@ -67,21 +67,20 @@ exports.addToCart = asyncHandler(async (req, res) => {
  */
 
 exports.removeItemFromCart = async (req, res) => {
-    const { productId } = req.params;
-    const userId = req.user.id;
-  
-    try {
-      // Find and remove the cart item
-      await Cart.findOneAndRemove({ userId, productId });
-  
-      res.status(200).json({
-        status: 200,
-        success: true,
-        message: "Item removed from cart successfully",
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Server Error" });
-    }
-  };
-  
+  const { productId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    // Find and remove the cart item
+    await Cart.findOneAndRemove({ userId, productId });
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: "Item removed from cart successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
