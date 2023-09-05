@@ -1,11 +1,12 @@
 {
-  "name": "leaf-line",
+  "name": "leafline",
   "version": "1.1.1",
   "description": "The LeafLine Book Store is an online platform that aims to provide a user-friendly and efficient way for customers to explore, purchase, and manage books.",
   "main": "server.js",
   "scripts": {
     "test": "jest",
     "start": "nodemon server.js",
+    "dev": "node --inspect server.js",
     "coverage": "nyc --reporter=text-lcov jest && nyc report --reporter=text-summary"
   },
   "jest": {
