@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   createAccountLimiter,
   forgetPasswordLimiter,
+  verifyLimiter,
 } = require("../services/rateLimitService");
 
 const ExpressBrute = require("express-brute");
@@ -29,7 +30,7 @@ const { authMiddleware } = require("../middleware/authMiddleware");
 // Routing Implement
 router.get("/list", userList);
 router.post("/register", createAccountLimiter, registerUser);
-router.post("/verify", emailVerify);
+router.post("/verify", verifyLimiter, emailVerify);
 router.post("/login", bruteforce.prevent, loginUser);
 router.get("/me", getMe);
 router.post("/reset-password", resetPassword);
