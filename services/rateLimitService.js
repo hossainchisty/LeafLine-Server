@@ -19,7 +19,6 @@ const forgetPasswordLimiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
-
 const verifyLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 3, // Limit each IP to 3 verify email requests per `window` (here, per hour)
