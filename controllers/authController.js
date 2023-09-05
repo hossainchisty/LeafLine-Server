@@ -268,7 +268,7 @@ const forgetPassword = async (req, res) => {
           resetPasswordToken,
           resetPasswordExpiry,
         },
-      }
+      },
     );
 
     // Send password reset email
