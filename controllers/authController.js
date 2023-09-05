@@ -94,7 +94,8 @@ const registerUser = asyncHandler(async (req, res) => {
     if (createdUser) {
       // Send verification email
       const domain = process.env.FRONTEND_URL;
-      const verificationLink = `${domain}/verify/${createdUser.verificationToken}`;
+      const verificationLink = `${domain}/verify-email/${createdUser.verificationToken}`;
+      console.log(verificationLink);
       sendVerificationEmail(createdUser.email, verificationLink);
 
       res.status(201).json({
@@ -202,15 +203,19 @@ const emailVerify = asyncHandler(async (req, res) => {
     // Find the user by verification token
     const user = await User.findOne({ verificationToken: token });
     if (!user) {
-      return res.status(404).json({ message: "Invalid verification token" });
+      return res.status(404).json({
+        status: 404,
+        message: "Invalid verification token",
+      });
     }
 
     // Check if the verification token has expired
     const now = moment();
     if (now.isAfter(user.verificationTokenExpiry)) {
-      return res
-        .status(400)
-        .json({ message: "Verification token has expired" });
+      return res.status(400).json({
+        status: 400,
+        message: "Verification token has expired",
+      });
     }
 
     // Update user as verified
@@ -219,7 +224,10 @@ const emailVerify = asyncHandler(async (req, res) => {
     user.isVerified = true;
     await user.save();
 
-    return res.status(200).json({ message: "User verified successfully" });
+    return res.status(200).json({
+      status: 200,
+      message: "User verified successfully",
+    });
   } catch (error) {
     res.status(500).json({
       status: 500,
@@ -260,7 +268,7 @@ const forgetPassword = async (req, res) => {
           resetPasswordToken,
           resetPasswordExpiry,
         },
-      },
+      }
     );
 
     // Send password reset email
