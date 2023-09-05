@@ -48,7 +48,7 @@ const getBookByID = asyncHandler(async (req, res) => {
     const book = await Book.findByIdAndUpdate(
       id,
       { $inc: { read: 1 } },
-      { new: true }
+      { new: true },
     ).lean();
 
     if (!book) {
@@ -104,15 +104,8 @@ const getBookByTitle = asyncHandler(async (req, res) => {
 // Create a new book for the authenticated user
 const addBook = asyncHandler(async (req, res) => {
   try {
-    const {
-      title,
-      price,
-      rating,
-      featured,
-      author,
-      thumbnail,
-      publishYear,
-    } = req.body;
+    const { title, price, rating, featured, author, thumbnail, publishYear } =
+      req.body;
 
     const bookData = {
       user: req.user.id,
@@ -171,7 +164,7 @@ const updateBook = asyncHandler(async (req, res) => {
 
     await Book.updateOne(
       { _id: id },
-      { title, price, rating, featured, author, thumbnail, publishYear }
+      { title, price, rating, featured, author, thumbnail, publishYear },
     );
 
     res.status(200).json({

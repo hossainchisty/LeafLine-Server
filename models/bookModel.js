@@ -39,7 +39,7 @@ const bookSchema = mongoose.Schema(
       required: false,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
 const Book = mongoose.model("Book", bookSchema);

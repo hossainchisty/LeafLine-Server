@@ -1,3 +1,18 @@
+# [1.15.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.14.0...v1.15.0) (2023-09-04)
+
+
+### Bug Fixes
+
+* Added trim field ([46d6c39](https://github.com/hossainchisty/LeafLine-Server/commit/46d6c39cd0ec1fea72ddfb999636b740c23e517c))
+* Total price of all products ([d597df0](https://github.com/hossainchisty/LeafLine-Server/commit/d597df082f97540b6dff0822a6b0f07abc220493))
+
+
+### Features
+
+* Added new field ([910ab4d](https://github.com/hossainchisty/LeafLine-Server/commit/910ab4d60946d7ad9171f8b2e58785b41b6e0e89))
+
+
+
 # [1.14.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.13.0...v1.14.0) (2023-09-04)
 
 
