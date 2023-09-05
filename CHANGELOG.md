@@ -1,3 +1,12 @@
+# [1.16.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.15.1...v1.16.0) (2023-09-05)
+
+
+### Features
+
+*  it will display a message about rate limiting ([c8f162e](https://github.com/hossainchisty/LeafLine-Server/commit/c8f162e920f0de6bf0663fa2dc80f05fd3f8981b))
+
+
+
 ## [1.15.1](https://github.com/hossainchisty/LeafLine-Server/compare/v1.15.0...v1.15.1) (2023-09-05)
 
 
@@ -37,15 +46,6 @@
 ### Features
 
 * Added API to get books by title of book ([c451a0a](https://github.com/hossainchisty/LeafLine-Server/commit/c451a0a08e06992f913cfa1dfe73265b79863e1d))
-
-
-
-# [1.12.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.11.0...v1.12.0) (2023-09-03)
-
-
-### Features
-
-* Added new fields ([7090783](https://github.com/hossainchisty/LeafLine-Server/commit/7090783e5837bc5b8ca42982911b094dff0a1777))
 
 
 
