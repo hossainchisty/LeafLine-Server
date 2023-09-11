@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: `https://leafline.vercel.app`,
+    origin: `${process.env.FRONTEND_URL}`,
     credentials: true,
   })
 );
