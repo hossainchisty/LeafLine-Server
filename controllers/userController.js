@@ -13,8 +13,18 @@ const verifyAuthorization = require("../utility/verifyAuthorization");
 const getMe = asyncHandler(async (req, res) => {
   const { token } = req.cookies;
   try {
-    const info = verifyAuthorization(token);
-    res.json(info);
+    // Extract the id from the info object
+    const { id } = verifyAuthorization(token);
+
+    const user = await User.findById(id).select('-password -updatedAt -__v -token').lean()
+
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({
+        message: "User not found",
+      });
+    }
   } catch (error) {
     res.status(401).json({
       status: error.status,
@@ -23,6 +33,7 @@ const getMe = asyncHandler(async (req, res) => {
     });
   }
 });
+
 
 /**
  * @desc    Get all user data

@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {
   getBooks,
-  getBookByID,
+  // getBookByID,
   getBooksList,
   getBookByTitle,
   addBook,
@@ -18,10 +18,11 @@ router.get("/list", getBooksList);
 router.get("/:title", getBookByTitle);
 
 // Search for books by title
-router.get("/search", searchBook);
+router.get("/book/search", searchBook);
 
 router.route("/").get(getBooks).post(addBook).put(updateBook);
 
-router.route("/:id").delete(deleteBook).get(getBookByID);
+// router.route("/:id").get(getBookByID);
+router.route("/:id").delete(deleteBook)
 
 module.exports = router;

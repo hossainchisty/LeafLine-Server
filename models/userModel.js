@@ -38,9 +38,12 @@ const userSchema = mongoose.Schema(
     resetPasswordExpiry: {
       type: Date,
     },
+    role: {
+      type: String,
+    },
     hasEarnedBadge: { type: Boolean, default: false },
   },
-  { timestamps: true, versionKey: false },
+  { timestamps: true, versionKey: false }
 );
 
 const User = mongoose.model("User", userSchema);
