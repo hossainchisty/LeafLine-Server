@@ -1,3 +1,12 @@
+# [1.17.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.16.0...v1.17.0) (2023-09-11)
+
+
+### Features
+
+* update source ([0f86c77](https://github.com/hossainchisty/LeafLine-Server/commit/0f86c771bf4944997e5d228f620d15bfc321d0a6))
+
+
+
 # [1.16.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.15.1...v1.16.0) (2023-09-05)
 
 
@@ -37,15 +46,6 @@
 ### Features
 
 * shopping cart functionality ([caeb427](https://github.com/hossainchisty/LeafLine-Server/commit/caeb427fe8cb88e3e164c4132e3f9c069d1d5434))
-
-
-
-# [1.13.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.12.0...v1.13.0) (2023-09-04)
-
-
-### Features
-
-* Added API to get books by title of book ([c451a0a](https://github.com/hossainchisty/LeafLine-Server/commit/c451a0a08e06992f913cfa1dfe73265b79863e1d))
 
 
 
