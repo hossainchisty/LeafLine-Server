@@ -43,7 +43,7 @@ const userSchema = mongoose.Schema(
     },
     hasEarnedBadge: { type: Boolean, default: false },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
 const User = mongoose.model("User", userSchema);

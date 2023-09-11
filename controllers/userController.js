@@ -16,7 +16,9 @@ const getMe = asyncHandler(async (req, res) => {
     // Extract the id from the info object
     const { id } = verifyAuthorization(token);
 
-    const user = await User.findById(id).select('-password -updatedAt -__v -token').lean()
+    const user = await User.findById(id)
+      .select("-password -updatedAt -__v -token")
+      .lean();
 
     if (user) {
       res.json(user);
@@ -33,7 +35,6 @@ const getMe = asyncHandler(async (req, res) => {
     });
   }
 });
-
 
 /**
  * @desc    Get all user data

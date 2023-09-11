@@ -23,6 +23,6 @@ router.get("/book/search", searchBook);
 router.route("/").get(getBooks).post(addBook).put(updateBook);
 
 // router.route("/:id").get(getBookByID);
-router.route("/:id").delete(deleteBook)
+router.route("/:id").delete(deleteBook);
 
 module.exports = router;
