@@ -108,7 +108,7 @@ const addBook = asyncHandler(async (req, res) => {
       req.body;
 
     const bookData = {
-      user: req.user.id,
+      // user: req.user.id,
       title,
       price,
       rating,
