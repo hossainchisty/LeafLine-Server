@@ -1,3 +1,13 @@
+## [1.17.1](https://github.com/hossainchisty/LeafLine-Server/compare/v1.17.0...v1.17.1) (2023-09-16)
+
+
+### Bug Fixes
+
+* Remove token from cookies ([b8fa47c](https://github.com/hossainchisty/LeafLine-Server/commit/b8fa47ce5dcb4177b79694063046ce5cd3a083c4))
+* token verification ([02b2365](https://github.com/hossainchisty/LeafLine-Server/commit/02b236551a508b6c98346448958d01c71f351a26))
+
+
+
 # [1.17.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.16.0...v1.17.0) (2023-09-11)
 
 
@@ -37,15 +47,6 @@
 ### Features
 
 * Added new field ([910ab4d](https://github.com/hossainchisty/LeafLine-Server/commit/910ab4d60946d7ad9171f8b2e58785b41b6e0e89))
-
-
-
-# [1.14.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.13.0...v1.14.0) (2023-09-04)
-
-
-### Features
-
-* shopping cart functionality ([caeb427](https://github.com/hossainchisty/LeafLine-Server/commit/caeb427fe8cb88e3e164c4132e3f9c069d1d5434))
 
 
 
