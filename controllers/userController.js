@@ -11,30 +11,46 @@ const verifyAuthorization = require("../utility/verifyAuthorization");
  */
 
 const getMe = asyncHandler(async (req, res) => {
-  const { token } = req.cookies;
+  const authorizationHeader = req.headers.authorization;
+
+  if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
+    return res.status(401).json({
+      status: 'fail',
+      message: 'Authorization header is missing or invalid',
+    });
+  }
+
+  // Extract the token from the header, removing the "Bearer " prefix
+  const token = authorizationHeader.slice(7);
+
   try {
-    // Extract the id from the info object
+    // Verify the token and extract the user ID
     const { id } = verifyAuthorization(token);
 
     const user = await User.findById(id)
-      .select("-password -updatedAt -__v -token")
+      .select('-password -updatedAt -__v -token')
       .lean();
 
     if (user) {
-      res.json(user);
+      res.status(200).json({
+        status: 'success',
+        user,
+      });
     } else {
       res.status(404).json({
-        message: "User not found",
+        status: 'fail',
+        message: 'User not found',
       });
     }
   } catch (error) {
     res.status(401).json({
-      status: error.status,
+      status: 'fail',
       error: error.message,
-      message: "Authorization failed",
+      message: 'Authorization failed',
     });
   }
 });
+
 
 /**
  * @desc    Get all user data

@@ -173,7 +173,7 @@ const loginUser = asyncHandler(async (req, res) => {
  */
 
 const logoutUser = asyncHandler(async (req, res) => {
-  res.status(200).res.json({
+  res.status(200).json({
     status: "success",
     message: "Logged out successfully",
   });

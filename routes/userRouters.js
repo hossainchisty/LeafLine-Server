@@ -31,10 +31,10 @@ const { authMiddleware } = require("../middleware/authMiddleware");
 router.get("/list", userList);
 router.post("/register", createAccountLimiter, registerUser);
 router.post("/verify", verifyLimiter, emailVerify);
-router.post("/login", bruteforce.prevent, loginUser);
-router.get("/me", getMe);
+router.post("/login", loginUser);
+router.get("/me", authMiddleware, getMe);
 router.post("/reset-password", resetPassword);
-router.post("/logout", authMiddleware, logoutUser);
+router.post("/logout", logoutUser);
 router.post("/forgot-password", forgetPasswordLimiter, forgetPassword);
 
 module.exports = router;
