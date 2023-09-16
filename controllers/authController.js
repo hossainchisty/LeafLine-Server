@@ -147,16 +147,13 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    // Generate and set the token as a cookie
+    // Generate token
     const token = generateToken(user._id, user.full_name);
-    const users = await User.findById(user._id);
-    res
-      .cookie("token", token, {
-        sameSite: "none",
-        secure: true,
-        httpOnly: true,
-      })
-      .json({ users });
+    res.status(200).json({
+      status: "success",
+      messgae: "User Sign In successfully!",
+      data: { token, user },
+    });
   } else {
     res.status(400).json({
       status: 400,
@@ -176,9 +173,8 @@ const loginUser = asyncHandler(async (req, res) => {
  */
 
 const logoutUser = asyncHandler(async (req, res) => {
-  // Update the user's token to invalidate it
-  res.cookie("token", null).json({
-    status: 200,
+  res.status(200).res.json({
+    status: "success",
     message: "Logged out successfully",
   });
 });
@@ -263,7 +259,7 @@ const forgetPassword = async (req, res) => {
           resetPasswordToken,
           resetPasswordExpiry,
         },
-      },
+      }
     );
 
     // Send password reset email
