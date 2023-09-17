@@ -9,7 +9,9 @@ const dashboard = asyncHandler(async (req, res) => {
   const total_users = await User.countDocuments();
 
   res.status(200).json({
-    status: 200,
+    success: true,
+    statusCode: 200,
+    message: "Analytics fetched successfully",
     data: {
       total_books,
       featured_books,
