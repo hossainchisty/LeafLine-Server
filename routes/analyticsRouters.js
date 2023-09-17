@@ -7,6 +7,6 @@ const dashboard = require("../controllers/analyticsController");
 const { authMiddleware } = require("../middleware/authMiddleware");
 
 // Routing Implement
-router.get("/", authMiddleware, dashboard);
+router.get("/", dashboard);
 
 module.exports = router;
