@@ -13,10 +13,10 @@ const verifyAuthorization = require("../utility/verifyAuthorization");
 const getMe = asyncHandler(async (req, res) => {
   const authorizationHeader = req.headers.authorization;
 
-  if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
+  if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
     return res.status(401).json({
-      status: 'fail',
-      message: 'Authorization header is missing or invalid',
+      status: "fail",
+      message: "Authorization header is missing or invalid",
     });
   }
 
@@ -28,33 +28,32 @@ const getMe = asyncHandler(async (req, res) => {
     const { id } = verifyAuthorization(token);
 
     const user = await User.findById(id)
-      .select('-password -updatedAt -__v -token')
+      .select("-password -updatedAt -__v -token")
       .lean();
 
     if (user) {
       res.status(200).json({
-        status: 'success',
+        status: "success",
         user,
       });
     } else {
       res.status(404).json({
-        status: 'fail',
-        message: 'User not found',
+        status: "fail",
+        message: "User not found",
       });
     }
   } catch (error) {
     res.status(401).json({
-      status: 'fail',
+      status: "fail",
       error: error.message,
-      message: 'Authorization failed',
+      message: "Authorization failed",
     });
   }
 });
 
-
 /**
- * @desc    Get all user data
- * @route   /api/v1/users/list
+ * @desc    Get all users → Only Allowed For Admin
+ * @route   /api/v1/users/
  * @method  GET
  * @access  Private
  */
@@ -62,7 +61,14 @@ const getMe = asyncHandler(async (req, res) => {
 const userList = asyncHandler(async (req, res) => {
   try {
     const users = await User.find();
-    res.status(200).json(users);
+    res
+      .status(200)
+      .json({
+        success: true,
+        statusCode: 200,
+        message: "Users retrived successfully",
+        data: [users],
+      });
   } catch (error) {
     res.status(500).json({
       status: 500,
@@ -72,7 +78,44 @@ const userList = asyncHandler(async (req, res) => {
   }
 });
 
+
+/**
+ * @desc    Get a Single User → Only Allowed For Admin
+ * @route   /api/v1/users/:id
+ * @param {String} id
+ * @method  GET
+ * @access  Private
+ */
+const findUserById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id).lean();
+
+    if (!user) {
+      return res.status(404).json({
+        status: 404,
+        error: "Not Found",
+        message: "User not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "User fetched successfully",
+      data: user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: "Internal Server Error",
+      message: "An error occurred while fetching the book.",
+    });
+  }
+});
 module.exports = {
   getMe,
   userList,
+  findUserById,
 };

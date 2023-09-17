@@ -10,6 +10,7 @@ const { errorHandler } = require("./middleware/errorMiddleware"); // Importing c
 const bookRouters = require("./routes/bookRouters");
 const userRouters = require("./routes/userRouters");
 const cartRouters = require("./routes/cartRouters");
+const analyticsRouters = require("./routes/analyticsRouters");
 
 // Database connection with mongoose
 const connectDB = require("./config/db"); // Importing database connection function using Mongoose
@@ -26,7 +27,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: `https://leafline.vercel.app`,
+    origin: `http://localhost:5173`,
     credentials: true,
   })
 );
@@ -39,6 +40,7 @@ app.use(
 app.use('/api/v1/users', userRouters);
 app.use('/api/v1/books', bookRouters);
 app.use('/api/v1/cart', cartRouters);
+app.use('/api/v1/analytics', analyticsRouters);
 
 app.use('/', (req, res) => {
   res.status(200).json({ status: 200, message: 'Health OK' });

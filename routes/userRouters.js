@@ -23,12 +23,13 @@ const {
   emailVerify,
 } = require("../controllers/authController");
 
-const { getMe, userList } = require("../controllers/userController");
+const { getMe, userList, findUserById } = require("../controllers/userController");
 
 const { authMiddleware } = require("../middleware/authMiddleware");
 
 // Routing Implement
-router.get("/list", userList);
+router.get("/", userList);
+router.get("/:id", findUserById);
 router.post("/register", createAccountLimiter, registerUser);
 router.post("/verify", verifyLimiter, emailVerify);
 router.post("/login", loginUser);
