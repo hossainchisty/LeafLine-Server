@@ -99,7 +99,8 @@ const registerUser = asyncHandler(async (req, res) => {
       sendVerificationEmail(createdUser.email, verificationLink);
 
       res.status(201).json({
-        status: 201,
+        statusCode: 201,
+        success: true,
         message: "Please check your email to verify your account.",
       });
     } else {
@@ -150,8 +151,9 @@ const loginUser = asyncHandler(async (req, res) => {
     // Generate token
     const token = generateToken(user._id, user.full_name);
     res.status(200).json({
-      status: "success",
-      messgae: "User Sign In successfully!",
+      success: true,
+      statusCode: 200,
+      message: "User signin successfully!",
       data: { token, user },
     });
   } else {
