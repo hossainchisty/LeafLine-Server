@@ -23,7 +23,11 @@ const {
   emailVerify,
 } = require("../controllers/authController");
 
-const { getMe, userList, findUserById } = require("../controllers/userController");
+const {
+  getMe,
+  userList,
+  findUserById,
+} = require("../controllers/userController");
 
 const { authMiddleware } = require("../middleware/authMiddleware");
 
