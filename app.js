@@ -28,8 +28,9 @@ app.use(express.json());
 
 // Define an array of allowed origins
 const allowedOrigins = [
-  `${process.env.ADMIN_URL}`,
-  `${process.env.FRONTEND_URL}`,
+  `http://localhost:5173`,
+  `https://leafline-admin.vercel.app/`,
+  `https://leafline.vercel.app/`,
   // Add more domains as needed
 ];
 
