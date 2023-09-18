@@ -42,6 +42,12 @@ const userSchema = mongoose.Schema(
       type: String,
     },
     hasEarnedBadge: { type: Boolean, default: false },
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Book",
+      },
+    ],
   },
   { timestamps: true, versionKey: false },
 );
