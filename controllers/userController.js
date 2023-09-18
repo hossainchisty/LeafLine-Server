@@ -61,14 +61,12 @@ const getMe = asyncHandler(async (req, res) => {
 const userList = asyncHandler(async (req, res) => {
   try {
     const users = await User.find();
-    res
-      .status(200)
-      .json({
-        success: true,
-        statusCode: 200,
-        message: "Users retrived successfully",
-        data: [users],
-      });
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Users retrived successfully",
+      data: [users],
+    });
   } catch (error) {
     res.status(500).json({
       status: 500,
@@ -77,7 +75,6 @@ const userList = asyncHandler(async (req, res) => {
     });
   }
 });
-
 
 /**
  * @desc    Get a Single User → Only Allowed For Admin
