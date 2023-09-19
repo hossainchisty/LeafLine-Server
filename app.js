@@ -24,28 +24,28 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());
-// app.use(cors({ origin: "" }));
+app.use(cors());
 
-// Define an array of allowed origins
-const allowedOrigins = [
-  `http://localhost:5173`,
-  `https://leafline-admin.vercel.app/`,
-  `https://leafline.vercel.app/`,
-  // Add more domains as needed
-];
+// // Define an array of allowed origins
+// const allowedOrigins = [
+//   `http://localhost:5173`,
+//   `https://leafline-admin.vercel.app/`,
+//   `https://leafline.vercel.app/`,
+//   // Add more domains as needed
+// ];
 
-// Configure CORS with the allowed origins
-app.use(cors({
-  origin: function (origin, callback) {
-    // Check if the origin is in the list of allowed origins or if it's undefined (for same-origin requests)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true); // Allow the request
-    } else {
-      callback(new Error('Not allowed by CORS')); // Deny the request
-    }
-  },
-  credentials: true,
-}));
+// // Configure CORS with the allowed origins
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // Check if the origin is in the list of allowed origins or if it's undefined (for same-origin requests)
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true); // Allow the request
+//     } else {
+//       callback(new Error('Not allowed by CORS')); // Deny the request
+//     }
+//   },
+//   credentials: true,
+// }));
 
 app.use(
   express.urlencoded({
