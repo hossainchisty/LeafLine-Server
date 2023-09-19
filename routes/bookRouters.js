@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {
   getBooks,
-  // getBookByID,
+  getBookByID,
   getBooksList,
   getBookByTitle,
   addBook,
@@ -22,7 +22,7 @@ router.get("/book/search", searchBook);
 
 router.route("/").get(getBooks).post(addBook).put(updateBook);
 
-// router.route("/:id").get(getBookByID);
+router.route("/:id").get(getBookByID);
 router.route("/:id").delete(deleteBook);
 
 module.exports = router;
