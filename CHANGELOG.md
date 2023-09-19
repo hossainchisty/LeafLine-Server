@@ -1,3 +1,12 @@
+## [1.19.1](https://github.com/hossainchisty/LeafLine-Server/compare/v1.19.0...v1.19.1) (2023-09-19)
+
+
+### Bug Fixes
+
+* remove cors ([3804aa1](https://github.com/hossainchisty/LeafLine-Server/commit/3804aa1e2d6273a4eb9b40b35667d901ac9ccb24))
+
+
+
 # [1.19.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.18.0...v1.19.0) (2023-09-18)
 
 
@@ -33,15 +42,6 @@
 ### Features
 
 * update source ([0f86c77](https://github.com/hossainchisty/LeafLine-Server/commit/0f86c771bf4944997e5d228f620d15bfc321d0a6))
-
-
-
-# [1.16.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.15.1...v1.16.0) (2023-09-05)
-
-
-### Features
-
-*  it will display a message about rate limiting ([c8f162e](https://github.com/hossainchisty/LeafLine-Server/commit/c8f162e920f0de6bf0663fa2dc80f05fd3f8981b))
 
 
 
