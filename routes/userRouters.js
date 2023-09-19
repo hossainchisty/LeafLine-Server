@@ -33,7 +33,7 @@ const { authMiddleware } = require("../middleware/authMiddleware");
 
 // Routing Implement
 router.get("/", userList);
-router.get("/:id", findUserById);
+router.get("/user/:id", findUserById);
 router.post("/register", createAccountLimiter, registerUser);
 router.post("/verify", verifyLimiter, emailVerify);
 router.post("/login", loginUser);
