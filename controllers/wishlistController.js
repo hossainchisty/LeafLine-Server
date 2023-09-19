@@ -14,13 +14,13 @@ const getWishlistBooks = asyncHandler(async (req, res) => {
 
   try {
     // Find the user by ID and populate the 'wishlist' field
-    const user = await User.findById(userId).populate('wishlist');
+    const user = await User.findById(userId).populate("wishlist");
 
     if (!user) {
       return res.status(404).json({
         success: false,
         statusCode: 404,
-        message: 'User not found',
+        message: "User not found",
       });
     }
 
@@ -30,16 +30,14 @@ const getWishlistBooks = asyncHandler(async (req, res) => {
     res.json({
       success: true,
       statusCode: 200,
-      message: 'Wishlisted books retrieved successfully',
+      message: "Wishlisted books retrieved successfully",
       wishlistedBooks,
     });
   } catch (error) {
-    // Handle any potential errors, e.g., database errors
-    console.error(error);
     res.status(500).json({
       success: false,
       statusCode: 500,
-      message: 'Internal Server Error',
+      message: "Internal Server Error",
     });
   }
 });
@@ -75,20 +73,16 @@ const addToWishlist = asyncHandler(async (req, res) => {
   }
 
   // Update the user's wishlist
-  await User.findByIdAndUpdate(
-    userId,
-    { $push: { wishlist: bookId } }
-  );
+  await User.findByIdAndUpdate(userId, { $push: { wishlist: bookId } });
 
   // // Populate the user object with wishlist details
   // const updatedUser = await User.findById(userId).populate("wishlist");
-  res.json({ 
+  res.json({
     success: true,
     statusCode: 200,
-    message: "Book added successfully!" });
+    message: "Book added successfully!",
+  });
 });
-
-
 
 /**
  * @desc   Remove a product from user's wishlist
@@ -109,13 +103,21 @@ const removeFromWishlist = asyncHandler(async (req, res) => {
 
     // Check if the user document exists
     if (!user) {
-      return res.status(401).json({ error: "User not authenticated" });
+      return res.status(401).json({
+        success: false,
+        statusCode: 401,
+        message: "User not authenticated",
+      });
     }
 
     // Check if the bookId is in the user's wishlist
     const wishlistIndex = user.wishlist.indexOf(bookId);
     if (wishlistIndex === -1) {
-      return res.status(400).json({ message: "Book does not exist in wishlist" });
+      return res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: "Book does not exist in wishlist",
+      });
     }
 
     // Remove the bookId from the wishlist array
@@ -127,16 +129,16 @@ const removeFromWishlist = asyncHandler(async (req, res) => {
     // Return a 204 No Content status code
     res.status(204).send();
   } catch (error) {
-    console.error("Error removing book from wishlist:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Internal server error",
+    });
   }
 });
 
-
-
-
 module.exports = {
-  getWishlistBooks, 
+  getWishlistBooks,
   addToWishlist,
   removeFromWishlist,
 };
