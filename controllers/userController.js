@@ -28,12 +28,13 @@ const getMe = asyncHandler(async (req, res) => {
     const { id } = verifyAuthorization(token);
 
     const user = await User.findById(id)
-      .select("-password -updatedAt -__v -token")
+      .select("-password -updatedAt -__v -token").populate('wishlist')
       .lean();
 
     if (user) {
       res.status(200).json({
-        status: "success",
+        success: true,
+        statusCode: 200,
         user,
       });
     } else {
@@ -105,7 +106,8 @@ const findUserById = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      status: 500,
+      success: false,
+      statusCode: 500,
       error: "Internal Server Error",
       message: "An error occurred while fetching the book.",
     });
