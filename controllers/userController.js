@@ -28,7 +28,8 @@ const getMe = asyncHandler(async (req, res) => {
     const { id } = verifyAuthorization(token);
 
     const user = await User.findById(id)
-      .select("-password -updatedAt -__v -token").populate('wishlist')
+      .select("-password -updatedAt -__v -token")
+      .populate("wishlist")
       .lean();
 
     if (user) {

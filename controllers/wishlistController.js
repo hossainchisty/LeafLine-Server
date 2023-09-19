@@ -113,7 +113,9 @@ const removeFromWishlist = asyncHandler(async (req, res) => {
     // Check if the bookId is in the user's wishlist
     const wishlistIndex = user.wishlist.indexOf(bookId);
     if (wishlistIndex === -1) {
-      return res.status(400).json({ message: "Book does not exist in wishlist" });
+      return res
+        .status(400)
+        .json({ message: "Book does not exist in wishlist" });
     }
 
     // Remove the bookId from the wishlist array
