@@ -1,3 +1,13 @@
+# [1.19.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.18.0...v1.19.0) (2023-09-18)
+
+
+### Features
+
+* Added wish list management ([86e2d5d](https://github.com/hossainchisty/LeafLine-Server/commit/86e2d5d0e0fabd291feeac785c22accadc3d55c2))
+* Added wishlist field ([c9709bd](https://github.com/hossainchisty/LeafLine-Server/commit/c9709bdba2a60a64aae4c30475d315a89a033343))
+
+
+
 # [1.18.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.17.1...v1.18.0) (2023-09-18)
 
 
@@ -32,15 +42,6 @@
 ### Features
 
 *  it will display a message about rate limiting ([c8f162e](https://github.com/hossainchisty/LeafLine-Server/commit/c8f162e920f0de6bf0663fa2dc80f05fd3f8981b))
-
-
-
-## [1.15.1](https://github.com/hossainchisty/LeafLine-Server/compare/v1.15.0...v1.15.1) (2023-09-05)
-
-
-### Performance Improvements
-
-* improve API response ([b2ef377](https://github.com/hossainchisty/LeafLine-Server/commit/b2ef37720760ca6e8b674d1f62f1b511186d4d93))
 
 
 

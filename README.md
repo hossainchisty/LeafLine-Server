@@ -10,6 +10,7 @@ The LeafLine Book Store is an online platform that aims to provide a user-friend
 - Book Browsing and Searching
 - Book Details and Purchase
 - User Profile Management
+- In our app, you can create a wishlist for books you want to read
 - Store Analytics, Book Addition, Modification, and Deletion (Admin)
 
 **1. Functional Requirements**
