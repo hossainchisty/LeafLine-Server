@@ -14,7 +14,7 @@ const bookSchema = mongoose.Schema(
       trim: true,
       indexedDB: true,
       required: [true, "Please add a text value"],
-    }, 
+    },
     description: {
       type: String,
       trim: true,
@@ -54,9 +54,9 @@ const bookSchema = mongoose.Schema(
       type: String,
       required: false,
     },
-    language: { type: String, required : true },
-    pages: { type: String, required : true},
-    publisher: { type: String, required : true},
+    language: { type: String, required: true },
+    pages: { type: String, required: true },
+    publisher: { type: String, required: true },
   },
   { timestamps: true, versionKey: false },
 );

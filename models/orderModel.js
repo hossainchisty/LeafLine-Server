@@ -58,7 +58,7 @@ const orderSchema = mongoose.Schema(
       default: Date.now,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
 // Middleware to generate custom transactionId
