@@ -1,3 +1,12 @@
+# [1.20.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.19.1...v1.20.0) (2023-09-24)
+
+
+### Features
+
+* User can buy books and  pay with stripe ([5015366](https://github.com/hossainchisty/LeafLine-Server/commit/5015366d157761ee41dadd8d12e26978d9b7f914))
+
+
+
 ## [1.19.1](https://github.com/hossainchisty/LeafLine-Server/compare/v1.19.0...v1.19.1) (2023-09-19)
 
 
@@ -33,15 +42,6 @@
 
 * Remove token from cookies ([b8fa47c](https://github.com/hossainchisty/LeafLine-Server/commit/b8fa47ce5dcb4177b79694063046ce5cd3a083c4))
 * token verification ([02b2365](https://github.com/hossainchisty/LeafLine-Server/commit/02b236551a508b6c98346448958d01c71f351a26))
-
-
-
-# [1.17.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.16.0...v1.17.0) (2023-09-11)
-
-
-### Features
-
-* update source ([0f86c77](https://github.com/hossainchisty/LeafLine-Server/commit/0f86c771bf4944997e5d228f620d15bfc321d0a6))
 
 
 
