@@ -15,7 +15,11 @@ const orderLists = asyncHandler(async (req, res) => {
   const skip = (page - 1) * itemsPerPage;
 
   const [orders, totalOrders] = await Promise.all([
-    Order.find().sort({ createdAt: -1 }).skip(skip).limit(itemsPerPage),
+    Order.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(itemsPerPage)
+      .populate("customerId"),
     Order.countDocuments(),
   ]);
 
@@ -26,7 +30,7 @@ const orderLists = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     statusCode: 200,
-    message: "Order retrieved successfully", 
+    message: "Order retrieved successfully",
     data: {
       orders,
       currentPage: page,
@@ -51,8 +55,21 @@ const createOrder = asyncHandler(async (req, res) => {
   try {
     const { address, city, postalCode, items, totalAmount } = req.body;
 
-    const newOrder = await Order.create(
-      {
+    // TODO: wRITE Better error handling mechanism
+    if (
+      !address ||
+      !city ||
+      !postalCode ||
+      !items ||
+      isNaN(totalAmount) ||
+      totalAmount <= 0
+    ) {
+      throw new Error("Invalid request data.");
+    }
+
+
+    const newOrderArray = await Order.create(
+      [{
         customerId: req.user.id,
         items: items,
         totalPrice: totalAmount,
@@ -60,19 +77,22 @@ const createOrder = asyncHandler(async (req, res) => {
         city: city,
         postalCode: postalCode,
         isPaid: false, // Set isPaid to false initially
-      },
+      }],
       { session }
     );
 
+    const newOrder = newOrderArray[0];
+
+    // Convert totalAmount to cents
+    const totalAmountInCents = Math.round(totalAmount * 100); 
+
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: newOrder.totalPrice * 100,
+      amount: totalAmountInCents,
       currency: "usd",
       metadata: {
-        order_id: newOrder._id.toString(),
+        order_id: newOrder._id,
       },
     });
-
-    // Assuming the payment is successful (you should verify this in your Stripe webhook or callback)
     // Update the order's isPaid field to true
     newOrder.isPaid = true;
     await newOrder.save();
@@ -82,7 +102,6 @@ const createOrder = asyncHandler(async (req, res) => {
 
     res.json({
       clientSecret: paymentIntent.client_secret,
-      orderId: newOrder._id,
     });
   } catch (error) {
     await session.abortTransaction();
@@ -91,12 +110,11 @@ const createOrder = asyncHandler(async (req, res) => {
     console.error("Error creating order:", error);
     res.status(500).json({
       statusCode: 500,
-      success: true,
+      success: false,
       message: "Error creating order",
     });
   }
 });
-
 
 
 module.exports = {

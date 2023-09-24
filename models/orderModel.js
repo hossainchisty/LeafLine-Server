@@ -1,3 +1,4 @@
+const shortid = require("shortid");
 const mongoose = require("mongoose");
 
 // Order Schema Definition
@@ -9,16 +10,11 @@ const orderSchema = mongoose.Schema(
       required: false,
       ref: "User",
     },
-    orderId: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: () => new mongoose.Types.ObjectId(),
-      index: { unique: true },
-    },
     transactionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: () => new mongoose.Types.ObjectId(),
+      type: String,
+      unique: true,
+      default: () => shortid.generate(),
       indexed: true,
-      index: { unique: true },
     },
     items: [
       {
@@ -65,16 +61,13 @@ const orderSchema = mongoose.Schema(
   { timestamps: true, versionKey: false }
 );
 
-// Middleware to generate orderId and transactionId
+// Middleware to generate custom transactionId
 orderSchema.pre("save", function (next) {
-    if (!this.orderId) {
-      this.orderId = new mongoose.Types.ObjectId();
-    }
-    if (!this.transactionId) {
-      this.transactionId = new mongoose.Types.ObjectId();
-    }
-    next();
-  });
+  if (!this.transactionId) {
+    this.transactionId = shortid.generate();
+  }
+  next();
+});
 
 
 const Order = mongoose.model("Order", orderSchema);
