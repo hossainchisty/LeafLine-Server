@@ -12,7 +12,13 @@ const bookSchema = mongoose.Schema(
     title: {
       type: String,
       trim: true,
+      indexedDB: true,
       required: [true, "Please add a text value"],
+    }, 
+    description: {
+      type: String,
+      trim: true,
+      required: [false, "Please add a text value"],
     },
     thumbnail: {
       trim: true,
@@ -23,6 +29,7 @@ const bookSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      indexedDB: true,
     },
     rating: {
       type: Number,
@@ -32,12 +39,24 @@ const bookSchema = mongoose.Schema(
     featured: {
       type: Boolean,
       required: false,
+      indexedDB: true,
     },
     read: { type: Number },
     publishYear: {
       type: Number,
       required: false,
     },
+    publishDate: {
+      type: Number,
+      required: false,
+    },
+    ISBN: {
+      type: String,
+      required: false,
+    },
+    language: { type: String, required : true },
+    pages: { type: String, required : true},
+    publisher: { type: String, required : true},
   },
   { timestamps: true, versionKey: false },
 );
