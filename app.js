@@ -12,6 +12,7 @@ const userRouters = require("./routes/userRouters");
 const cartRouters = require("./routes/cartRouters");
 const analyticsRouters = require("./routes/analyticsRouters");
 const wishlistRouters = require("./routes/wishlistRouters");
+const orderRouters = require("./routes/orderRouters");
 
 // Database connection with mongoose
 const connectDB = require("./config/db"); // Importing database connection function using Mongoose
@@ -24,7 +25,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(cors('*'));
 
 // // Define an array of allowed origins
 // const allowedOrigins = [
@@ -58,6 +59,7 @@ app.use("/api/v1/books", bookRouters);
 app.use("/api/v1/cart", cartRouters);
 app.use("/api/v1/wishlist", wishlistRouters);
 app.use("/api/v1/analytics", analyticsRouters);
+app.use("/api/v1/order", orderRouters);
 
 app.use("/", (req, res) => {
   res.status(200).json({ status: 200, message: "Health OK" });
