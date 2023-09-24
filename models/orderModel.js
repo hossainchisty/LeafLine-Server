@@ -62,20 +62,19 @@ const orderSchema = mongoose.Schema(
       default: Date.now,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
 // Middleware to generate orderId and transactionId
 orderSchema.pre("save", function (next) {
-    if (!this.orderId) {
-      this.orderId = new mongoose.Types.ObjectId();
-    }
-    if (!this.transactionId) {
-      this.transactionId = new mongoose.Types.ObjectId();
-    }
-    next();
-  });
-
+  if (!this.orderId) {
+    this.orderId = new mongoose.Types.ObjectId();
+  }
+  if (!this.transactionId) {
+    this.transactionId = new mongoose.Types.ObjectId();
+  }
+  next();
+});
 
 const Order = mongoose.model("Order", orderSchema);
 

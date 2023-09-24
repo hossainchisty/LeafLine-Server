@@ -26,7 +26,7 @@ const orderLists = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     statusCode: 200,
-    message: "Order retrieved successfully", 
+    message: "Order retrieved successfully",
     data: {
       orders,
       currentPage: page,
@@ -61,7 +61,7 @@ const createOrder = asyncHandler(async (req, res) => {
         postalCode: postalCode,
         isPaid: false, // Set isPaid to false initially
       },
-      { session }
+      { session },
     );
 
     const paymentIntent = await stripe.paymentIntents.create({
@@ -96,8 +96,6 @@ const createOrder = asyncHandler(async (req, res) => {
     });
   }
 });
-
-
 
 module.exports = {
   orderLists,

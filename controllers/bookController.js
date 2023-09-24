@@ -48,7 +48,7 @@ const getBookByID = asyncHandler(async (req, res) => {
     const book = await Book.findByIdAndUpdate(
       id,
       { $inc: { read: 1 } },
-      { new: true }
+      { new: true },
     ).lean();
 
     if (!book) {
@@ -183,7 +183,7 @@ const updateBook = asyncHandler(async (req, res) => {
 
     await Book.updateOne(
       { _id: id },
-      { title, price, rating, featured, author, thumbnail, publishYear }
+      { title, price, rating, featured, author, thumbnail, publishYear },
     );
 
     res.status(200).json({
