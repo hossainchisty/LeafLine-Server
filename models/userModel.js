@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema(
     avatar: {
       type: String,
     },
+    bio: {
+      type: String,
+      required: false,
+    },
     password: {
       type: String,
       required: [true, "Please add a password"],
