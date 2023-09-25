@@ -6,6 +6,7 @@ const {
   addToCart,
   getUserCart,
   removeItemFromCart,
+  removeAllItemsFromCart
 } = require("../controllers/cartController");
 
 const { authMiddleware } = require("../middleware/authMiddleware");
@@ -14,5 +15,6 @@ const { authMiddleware } = require("../middleware/authMiddleware");
 router.get("/", authMiddleware, getUserCart);
 router.post("/add", authMiddleware, addToCart);
 router.delete("/remove/:productId", authMiddleware, removeItemFromCart);
+router.delete("/remove-all", authMiddleware, removeAllItemsFromCart);
 
 module.exports = router;

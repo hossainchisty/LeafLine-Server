@@ -95,3 +95,31 @@ exports.removeItemFromCart = async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 };
+
+/**
+ * @desc    Remove all items from the cart
+ * @route   /api/v1/cart/remove-all
+ * @method  DELETE
+ * @access  Private
+ */
+
+exports.removeAllItemsFromCart = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    // Find and remove all cart items for the user
+    await Cart.deleteMany({ userId });
+
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: "All items removed from the cart successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      success: false,
+      error: error.message,
+    });
+  }
+};
