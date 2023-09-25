@@ -67,24 +67,25 @@ const createOrder = asyncHandler(async (req, res) => {
       throw new Error("Invalid request data.");
     }
 
-
     const newOrderArray = await Order.create(
-      [{
-        customerId: req.user.id,
-        items: items,
-        totalPrice: totalAmount,
-        address: address,
-        city: city,
-        postalCode: postalCode,
-        isPaid: false, // Set isPaid to false initially
-      }],
-      { session }
+      [
+        {
+          customerId: req.user.id,
+          items: items,
+          totalPrice: totalAmount,
+          address: address,
+          city: city,
+          postalCode: postalCode,
+          isPaid: false, // Set isPaid to false initially
+        },
+      ],
+      { session },
     );
 
     const newOrder = newOrderArray[0];
 
     // Convert totalAmount to cents
-    const totalAmountInCents = Math.round(totalAmount * 100); 
+    const totalAmountInCents = Math.round(totalAmount * 100);
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalAmountInCents,
