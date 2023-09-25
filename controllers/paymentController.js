@@ -4,44 +4,6 @@ const asyncHandler = require("express-async-handler");
 const stripe = require("stripe")(`${process.env.STRIPE_API_KEY}`);
 
 /**
- * @desc    Get order lists of customers
- * @route   /api/v1/order/
- * @method  GET
- * @access  Private
- */
-const orderLists = asyncHandler(async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const itemsPerPage = 12;
-  const skip = (page - 1) * itemsPerPage;
-
-  const [orders, totalOrders] = await Promise.all([
-    Order.find()
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(itemsPerPage)
-      .populate("customerId"),
-    Order.countDocuments(),
-  ]);
-
-  const totalPages = Math.ceil(totalOrders / itemsPerPage);
-  const nextPage = page < totalPages ? page + 1 : null;
-  const prevPage = page > 1 ? page - 1 : null;
-
-  res.status(200).json({
-    success: true,
-    statusCode: 200,
-    message: "Order retrieved successfully",
-    data: {
-      orders,
-      currentPage: page,
-      totalPages,
-      nextPage,
-      prevPage,
-    },
-  });
-});
-
-/**
  * @desc    Payment with srtipe
  * @route   /api/v1/order/charge/create-order
  * @method  POST
@@ -118,6 +80,5 @@ const createOrder = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  orderLists,
   createOrder,
 };
