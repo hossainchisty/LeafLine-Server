@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser"); // Importing Cookie Parser middle
 require("dotenv").config(); // Loading environment variables from .env file
 const cors = require("cors"); // Importing CORS middleware for enabling Cross-Origin Resource Sharing
 const { errorHandler } = require("./middleware/errorMiddleware"); // Importing custom error handling middleware
+const expressRateLimit = require('express-rate-limit');
 
 const bookRouters = require("./routes/bookRouters");
 const userRouters = require("./routes/userRouters");
@@ -13,6 +14,7 @@ const cartRouters = require("./routes/cartRouters");
 const analyticsRouters = require("./routes/analyticsRouters");
 const wishlistRouters = require("./routes/wishlistRouters");
 const orderRouters = require("./routes/orderRouters");
+const reviewRouters = require('./routes/reviewRouters');
 
 // Database connection with mongoose
 const connectDB = require("./config/db"); // Importing database connection function using Mongoose
@@ -24,7 +26,14 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.json());
+const limiter = expressRateLimit({
+  max: 100,
+  windowsMs: 60 * 60 * 1000,
+  message: "Too many requests",
+  standartHeaders: true,
+  legacyHeaders: false,
+})
+app.use(express.json({limit: limiter}));
 app.use(cors('*'));
 
 // // Define an array of allowed origins
@@ -60,9 +69,10 @@ app.use("/api/v1/cart", cartRouters);
 app.use("/api/v1/wishlist", wishlistRouters);
 app.use("/api/v1/analytics", analyticsRouters);
 app.use("/api/v1/order", orderRouters);
+app.use('/api/v1/reviews', reviewRouters);
 
 app.use("/", (req, res) => {
-  res.status(200).json({ status: 200, message: "Health OK" });
+  res.status(200).json({ statusCode: 200, message: "Health OK" });
 });
 
 app.use("*", (req, res) => {
