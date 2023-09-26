@@ -15,49 +15,110 @@ const createOrder = asyncHandler(async (req, res) => {
   session.startTransaction();
 
   try {
-    const { address, city, postalCode, items, totalAmount } = req.body;
+    const { address, city, postalCode, totalPrice, items } = req.body;
 
-    // TODO: wRITE Better error handling mechanism
-    if (
-      !address ||
-      !city ||
-      !postalCode ||
-      !items ||
-      isNaN(totalAmount) ||
-      totalAmount <= 0
-    ) {
-      throw new Error("Invalid request data.");
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Validation error",
+        errors: [
+          {
+            field: "items",
+            message: "Item field is required",
+          },
+        ],
+      });
     }
+
+    // Validate the presence and type of totalPrice
+    if (typeof totalPrice !== "number" || totalPrice <= 0) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Validation error",
+        errors: [
+          {
+            field: "totalPrice",
+            message:
+              "Total price field is required and must be a positive number",
+          },
+        ],
+      });
+    }
+    if (!postalCode) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Validation error",
+        errors: [
+          {
+            field: "postalCode",
+            message: "Postalcode field is required",
+          },
+        ],
+      });
+    }
+    if (!address) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Validation error",
+        errors: [
+          {
+            field: "address",
+            message: "Address field is required",
+          },
+        ],
+      });
+    }
+
+    if (!city) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Validation error",
+        errors: [
+          {
+            field: "city",
+            message: "City field is required",
+          },
+        ],
+      });
+    }
+
+    const orderItems = items.map((item) => ({
+      bookId: item.bookId,
+      quantity: item.quantity,
+    }));
 
     const newOrderArray = await Order.create(
       [
         {
-          customerId: req.user.id,
-          items: items,
-          totalPrice: totalAmount,
+          user: req.user.id,
+          items: orderItems,
+          totalPrice: totalPrice,
           address: address,
           city: city,
           postalCode: postalCode,
-          isPaid: false, // Set isPaid to false initially
+          isPaid: false,
         },
       ],
-      { session },
+      { session }
     );
 
-    const newOrder = newOrderArray[0];
-
     // Convert totalAmount to cents
-    const totalAmountInCents = Math.round(totalAmount * 100);
+    const totalAmountInCents = Math.round(totalPrice * 100);
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalAmountInCents,
       currency: "usd",
       metadata: {
-        order_id: newOrder._id,
+        order_id: newOrderArray._id,
       },
     });
-    // Update the order's isPaid field to true
+
+    const newOrder = newOrderArray[0];
+
+    // Update the isPaid field on newOrder
     newOrder.isPaid = true;
+    
+    // Save the changes
     await newOrder.save();
 
     await session.commitTransaction();
