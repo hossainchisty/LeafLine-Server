@@ -17,7 +17,7 @@ const orderLists = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(itemsPerPage)
-      .populate("customerId"),
+      .populate("user"),
     Order.countDocuments(),
   ]);
 
