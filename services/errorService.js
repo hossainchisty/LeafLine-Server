@@ -9,7 +9,7 @@
 function sendError(res, statusCode, message) {
     return res.status(statusCode).json({
       statusCode,
-      success: false,
+      success,
       message,
     });
   }
