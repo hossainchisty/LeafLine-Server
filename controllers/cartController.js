@@ -10,7 +10,7 @@ const { sendError } = require("../services/errorService");
  * @method  GET
  * @access  Private
  */
-exports.getCart = async (req, res) => {
+exports.getCartItems = async (req, res) => {
   const userId = req.user.id;
 
   try {
@@ -21,12 +21,13 @@ exports.getCart = async (req, res) => {
       return sendResponse(res, 404, false, "Your cart is empty");
     }
 
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Cart items retrieved successfully",
-      cart,
-    });
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Cart items retrieved successfully",
+      cart
+    );
   } catch (error) {
     console.error(error);
     return sendError(res, 500, "Internal server error");
@@ -46,10 +47,6 @@ exports.addToCart = asyncHandler(async (req, res) => {
 
   try {
     let cart = await Cart.findOne({ user: userId });
-
-    if (!cart) {
-      return sendResponse(res, 404, false, "Your cart is empty");
-    }
 
     const book = await Book.findById(productId);
 
@@ -96,11 +93,7 @@ exports.addToCart = asyncHandler(async (req, res) => {
 
     await cart.save();
 
-    res.status(200).json({
-      statusCode: 200,
-      success: true,
-      message: "Item added to cart successfully",
-    });
+    return sendResponse(res, 200, true, "Item added to cart successfully");
   } catch (error) {
     console.error(error);
     return sendError(res, 500, "Internal server error");
@@ -130,20 +123,14 @@ exports.removeItemFromCart = async (req, res) => {
     );
 
     if (itemIndex === -1) {
-      return res.status(404).json({ error: "Item not found in cart" });
+      return sendResponse(res, 404, false, "Item not found in cart");
     }
 
     // Remove the item from the cart
     cart.items.splice(itemIndex, 1);
     await cart.save();
-
-    res.status(200).json({
-      statusCode: 200,
-      success: true,
-      message: "Item removed from cart",
-    });
+    return sendResponse(res, 200, true, "Item removed from cart");
   } catch (error) {
-    console.error(error);
     return sendError(res, 500, "Internal server error");
   }
 };
@@ -161,11 +148,12 @@ exports.removeAllItemsFromCart = async (req, res) => {
     // Find and remove the user's cart
     await Cart.deleteOne({ user: userId });
 
-    res.status(200).json({
-      statusCode: 200,
-      success: true,
-      message: "All items removed from the cart successfully",
-    });
+    return sendResponse(
+      res,
+      200,
+      true,
+      "All items removed from the cart successfully"
+    );
   } catch (error) {
     console.error(error);
     return sendError(res, 500, "Internal server error");
@@ -202,9 +190,12 @@ exports.updateCartItemQuantity = asyncHandler(async (req, res) => {
 
     await cart.save();
 
-    res.status(200).json({
-      message: "Cart item quantity updated successfully",
-    });
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Cart item quantity updated successfully"
+    );
   } catch (error) {
     console.error(error);
     return sendError(res, 500, "Internal server error");
