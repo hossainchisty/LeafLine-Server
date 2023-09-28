@@ -15,6 +15,12 @@ const bookSchema = mongoose.Schema(
       indexedDB: true,
       required: [true, "Please add a text value"],
     },
+    genre: {
+      type: String,
+      trim: true,
+      required: true,
+      index: true,
+    },
     description: {
       type: String,
       trim: true,
@@ -25,16 +31,46 @@ const bookSchema = mongoose.Schema(
       type: String,
     },
     price: { type: Number, required: true, trim: true },
+    shippingFees: {
+      type: Number,
+    },
+    stock: {
+      inStock: {
+        type: Boolean,
+        default: true,
+      },
+      remainingStock: {
+        type: Number,
+        default: 0,
+      },
+    },
     author: {
       type: String,
       required: true,
       trim: true,
       indexedDB: true,
     },
-    rating: {
+    reviews: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        rating: {
+          type: Number,
+          required: true,
+          minlength: 1,
+          maxlength: 5,
+        },
+        comment: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    averageRating: {
       type: Number,
       required: false,
-      trim: true,
     },
     featured: {
       type: Boolean,
@@ -52,14 +88,70 @@ const bookSchema = mongoose.Schema(
     },
     ISBN: {
       type: String,
-      required: false,
+      unique: true,
+      required: true,
     },
     language: { type: String, required: true },
     pages: { type: String, required: true },
     publisher: { type: String, required: true },
   },
-  { timestamps: true, versionKey: false },
+  { timestamps: true, versionKey: false }
+  
 );
+
+// Static methods to the schema for filtering and sorting
+bookSchema.statics.filterAndSort = async function (
+  filterOptions,
+  sortOptions,
+) {
+  const query = this.find();
+
+  if (filterOptions) {
+    const filters = {};
+
+    if (filterOptions.genre) {
+      filters.genre = filterOptions.genre;
+    }
+
+    if (filterOptions.priceMin) {
+      filters.price = { $gte: filterOptions.priceMin };
+    }
+
+    if (filterOptions.priceMax) {
+      filters.price = { ...filters.price, $lte: filterOptions.priceMax };
+    }
+
+    if (filterOptions.title) {
+      filters.title = filterOptions.title;
+    }
+
+    query.where(filters);
+  }
+
+  if (sortOptions) {
+    switch (sortOptions.price) {
+      case "asc":
+        query.sort({ price: 1 });
+        break;
+      case "desc":
+        query.sort({ price: -1 });
+        break;
+      default:
+    }
+
+    switch (sortOptions.popularity) {
+      case "asc":
+        query.sort({ reviews: 1 });
+        break;
+      case "desc":
+        query.sort({ reviews: -1 });
+        break;
+      default:
+    }
+  }
+
+  return await query.lean().exec();
+};
 
 const Book = mongoose.model("Book", bookSchema);
 
