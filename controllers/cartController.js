@@ -30,7 +30,7 @@ exports.getCartItems = async (req, res) => {
     );
   } catch (error) {
     console.error(error);
-    return sendError(res, 500, "Internal server error");
+    return sendError(res, 500, false, "Internal server error");
   }
 };
 
@@ -96,7 +96,7 @@ exports.addToCart = asyncHandler(async (req, res) => {
     return sendResponse(res, 200, true, "Item added to cart successfully");
   } catch (error) {
     console.error(error);
-    return sendError(res, 500, "Internal server error");
+    return sendError(res, 500, false, "Internal server error");
   }
 });
 
@@ -131,7 +131,7 @@ exports.removeItemFromCart = async (req, res) => {
     await cart.save();
     return sendResponse(res, 200, true, "Item removed from cart");
   } catch (error) {
-    return sendError(res, 500, "Internal server error");
+    return sendError(res, 500, false, "Internal server error");
   }
 };
 
@@ -156,7 +156,7 @@ exports.removeAllItemsFromCart = async (req, res) => {
     );
   } catch (error) {
     console.error(error);
-    return sendError(res, 500, "Internal server error");
+    return sendError(res, 500, false, "Internal server error");
   }
 };
 
@@ -198,6 +198,6 @@ exports.updateCartItemQuantity = asyncHandler(async (req, res) => {
     );
   } catch (error) {
     console.error(error);
-    return sendError(res, 500, "Internal server error");
+    return sendError(res, 500, false,"Internal server error");
   }
 });
