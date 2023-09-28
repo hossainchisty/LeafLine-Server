@@ -7,7 +7,6 @@ const {
   getCartItems,
   removeItemFromCart,
   removeAllItemsFromCart,
-  updateCartItemQuantity,
 } = require("../controllers/cartController");
 
 const { authMiddleware } = require("../middleware/authMiddleware");
