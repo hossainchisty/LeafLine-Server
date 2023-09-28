@@ -3,31 +3,26 @@ const mongoose = require("mongoose");
 
 // Order Schema Definition
 
+const orderItemSchema = new mongoose.Schema({
+  bookId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Book",
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+});
+
 const orderSchema = mongoose.Schema(
   {
-    customerId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       required: false,
       ref: "User",
     },
-    transactionId: {
-      type: String,
-      unique: true,
-      default: () => shortid.generate(),
-      indexed: true,
-    },
-    items: [
-      {
-        itemName: {
-          type: String,
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
+    items: [orderItemSchema],
     totalPrice: {
       type: Number,
       required: true,
@@ -53,18 +48,42 @@ const orderSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    createdAt: {
+    paymentMethod: {
+      type: String,
+      default: "Card",
+    },
+    trackingNumber: {
+      type: String,
+      unique: true,
+      default: () => shortid.generate(),
+      indexed: true,
+    },
+    transactionId: {
+      type: String,
+      unique: true,
+      default: () => shortid.generate(),
+      indexed: true,
+    },
+    delivereAt: {
       type: Date,
-      default: Date.now,
+      required: false,
     },
   },
-  { timestamps: true, versionKey: false },
+  { timestamps: true, versionKey: false }
 );
 
 // Middleware to generate custom transactionId
 orderSchema.pre("save", function (next) {
   if (!this.transactionId) {
     this.transactionId = shortid.generate();
+  }
+  next();
+});
+
+// Middleware to generate custom trackingNumber
+orderSchema.pre("save", function (next) {
+  if (!this.trackingNumber) {
+    this.trackingNumber = `LLTN-${shortid.generate()}`;
   }
   next();
 });
