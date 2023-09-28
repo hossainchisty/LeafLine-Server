@@ -15,14 +15,14 @@ const {
 // API Endpoints for Managing Books
 router.get("/list", getBooksList);
 
-router.get("/:title", getBookByTitle);
+router.get("/find/:title", getBookByTitle);
 
 // Search for books by title
 router.get("/book/search", searchBook);
 
 router.route("/").get(getBooks).post(addBook).put(updateBook);
 
-router.route("/:id").get(getBookByID);
-router.route("/:id").delete(deleteBook);
+router.get("/:id", getBookByID);
+router.delete("/:id", deleteBook);
 
 module.exports = router;
