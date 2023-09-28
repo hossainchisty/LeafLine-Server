@@ -1,4 +1,6 @@
 const Order = require("../models/orderModel");
+const { sendResponse } = require("../services/responseService");
+const { sendError } = require("../services/errorService");
 
 /**
  * @desc    Get order lists of customers
@@ -25,17 +27,12 @@ const orderLists = async (req, res) => {
   const nextPage = page < totalPages ? page + 1 : null;
   const prevPage = page > 1 ? page - 1 : null;
 
-  res.status(200).json({
-    success: true,
-    statusCode: 200,
-    message: "Order retrieved successfully",
-    data: {
-      orders,
-      currentPage: page,
-      totalPages,
-      nextPage,
-      prevPage,
-    },
+  return sendResponse(res, 200, true, "Order retrieved successfully", {
+    orders,
+    currentPage: page,
+    totalPages,
+    nextPage,
+    prevPage,
   });
 };
 
@@ -54,7 +51,7 @@ const updateOrderStatus = async (req, res) => {
     const order = await Order.findById(orderId);
 
     if (!order) {
-      return res.status(404).json({ error: "Order not found" });
+      return sendResponse(res, 404, false, "Order not found");
     }
 
     // Update the status field
@@ -62,16 +59,16 @@ const updateOrderStatus = async (req, res) => {
 
     // Save the updated order to the database
     await order.save();
-
-    res.status(200).json({
-      statusCode: 200,
-      success: true,
-      message: "Order status updated successfully",
-      updatedOrder: order,
-    });
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Order status updated successfully",
+      order
+    );
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server Error" });
+    return sendError(res, 500, false, "Internal server error");
   }
 };
 
