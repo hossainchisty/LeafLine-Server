@@ -10,7 +10,7 @@ const verifyAuthorization = require("../utility/verifyAuthorization");
  * @access  Private
  */
 
-const getMe = asyncHandler(async (req, res) => {
+const getMe = asyncHandler(async (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
 
   if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
@@ -45,11 +45,7 @@ const getMe = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(401).json({
-      status: "fail",
-      error: error.message,
-      message: "Authorization failed",
-    });
+    next(error)
   }
 });
 

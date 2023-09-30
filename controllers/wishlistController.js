@@ -9,7 +9,7 @@ const asyncHandler = require("express-async-handler");
  * @access Private
  * @requires User authentication
  */
-const getWishlistBooks = asyncHandler(async (req, res) => {
+const getWishlistBooks = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
 
   try {
@@ -34,11 +34,7 @@ const getWishlistBooks = asyncHandler(async (req, res) => {
       wishlistedBooks,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      statusCode: 500,
-      message: "Internal Server Error",
-    });
+    next(error)
   }
 });
 
@@ -93,7 +89,7 @@ const addToWishlist = asyncHandler(async (req, res) => {
  * @requires User authentication
  */
 
-const removeFromWishlist = asyncHandler(async (req, res) => {
+const removeFromWishlist = asyncHandler(async (req, res, next) => {
   const { bookId } = req.body;
   const userId = req.user.id;
 
@@ -127,11 +123,7 @@ const removeFromWishlist = asyncHandler(async (req, res) => {
     // Return a 204 No Content status code
     res.status(204).send();
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      statusCode: 500,
-      message: "Internal server error",
-    });
+    next(error)
   }
 });
 

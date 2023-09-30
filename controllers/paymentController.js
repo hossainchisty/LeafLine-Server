@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Order = require("../models/orderModel");
-const asyncHandler = require("express-async-handler");
 const stripe = require("stripe")(`${process.env.STRIPE_API_KEY}`);
 
 /**
@@ -10,7 +9,7 @@ const stripe = require("stripe")(`${process.env.STRIPE_API_KEY}`);
  * @access  Private
  */
 
-const createOrder = asyncHandler(async (req, res) => {
+const createOrder = async (req, res, next) => {
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -130,15 +129,9 @@ const createOrder = asyncHandler(async (req, res) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
-
-    console.error("Error creating order:", error);
-    res.status(500).json({
-      statusCode: 500,
-      success: false,
-      message: "Error creating order",
-    });
+    next(error)
   }
-});
+};
 
 module.exports = {
   createOrder,

@@ -1,6 +1,5 @@
 const Order = require("../models/orderModel");
 const { sendResponse } = require("../services/responseService");
-const { sendError } = require("../services/errorService");
 
 /**
  * @desc    Get order lists of customers
@@ -43,7 +42,7 @@ const orderLists = async (req, res) => {
  * @access  Private
  */
 
-const updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res, next) => {
   const { orderId } = req.params;
   const { newStatus } = req.body;
 
@@ -67,8 +66,7 @@ const updateOrderStatus = async (req, res) => {
       order
     );
   } catch (error) {
-    console.error(error);
-    return sendError(res, 500, false, "Internal server error");
+    next(error)
   }
 };
 

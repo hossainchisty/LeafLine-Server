@@ -2,7 +2,6 @@ const Cart = require("../models/cartModel");
 const Book = require("../models/bookModel");
 const asyncHandler = require("express-async-handler");
 const { sendResponse } = require("../services/responseService");
-const { sendError } = require("../services/errorService");
 
 /**
  * @desc    Get user's cart
@@ -10,7 +9,7 @@ const { sendError } = require("../services/errorService");
  * @method  GET
  * @access  Private
  */
-exports.getCartItems = async (req, res) => {
+exports.getCartItems = async (req, res, next) => {
   const userId = req.user.id;
 
   try {
@@ -29,8 +28,7 @@ exports.getCartItems = async (req, res) => {
       cart
     );
   } catch (error) {
-    console.error(error);
-    return sendError(res, 500, false, "Internal server error");
+    next(error)
   }
 };
 
@@ -41,7 +39,7 @@ exports.getCartItems = async (req, res) => {
  * @access  Private
  */
 
-exports.addToCart = asyncHandler(async (req, res) => {
+exports.addToCart = asyncHandler(async (req, res, next) => {
   const { productId, quantity } = req.body;
   const userId = req.user.id;
 
@@ -95,8 +93,7 @@ exports.addToCart = asyncHandler(async (req, res) => {
 
     return sendResponse(res, 200, true, "Item added to cart successfully");
   } catch (error) {
-    console.error(error);
-    return sendError(res, 500, false, "Internal server error");
+    next(error)
   }
 });
 
@@ -106,7 +103,7 @@ exports.addToCart = asyncHandler(async (req, res) => {
  * @method  DELETE
  * @access  Private
  */
-exports.removeItemFromCart = async (req, res) => {
+exports.removeItemFromCart = async (req, res, next) => {
   const { productId } = req.params;
   const userId = req.user.id;
 
@@ -131,7 +128,7 @@ exports.removeItemFromCart = async (req, res) => {
     await cart.save();
     return sendResponse(res, 200, true, "Item removed from cart");
   } catch (error) {
-    return sendError(res, 500, false, "Internal server error");
+    next(error)
   }
 };
 
@@ -141,7 +138,7 @@ exports.removeItemFromCart = async (req, res) => {
  * @method  DELETE
  * @access  Private
  */
-exports.removeAllItemsFromCart = async (req, res) => {
+exports.removeAllItemsFromCart = async (req, res, next) => {
   const userId = req.user.id;
 
   try {
@@ -155,8 +152,7 @@ exports.removeAllItemsFromCart = async (req, res) => {
       "All items removed from the cart successfully"
     );
   } catch (error) {
-    console.error(error);
-    return sendError(res, 500, false, "Internal server error");
+    next(error)
   }
 };
 
@@ -166,7 +162,7 @@ exports.removeAllItemsFromCart = async (req, res) => {
  * @method PUT
  * @access Private
  */
-exports.updateCartItemQuantity = asyncHandler(async (req, res) => {
+exports.updateCartItemQuantity = asyncHandler(async (req, res, next) => {
   const { cartItemId, quantity } = req.body;
   const userId = req.user.id;
 
@@ -197,7 +193,6 @@ exports.updateCartItemQuantity = asyncHandler(async (req, res) => {
       "Cart item quantity updated successfully"
     );
   } catch (error) {
-    console.error(error);
-    return sendError(res, 500, false,"Internal server error");
+    next(error)
   }
 });

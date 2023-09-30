@@ -14,7 +14,7 @@ const Book = require("../models/bookModel");
  * @requires User Account
  */
 
-const createReview = asyncHandler(async (req, res) => {
+const createReview = asyncHandler(async (req, res, next) => {
   const { bookId } = req.params;
   const { rating, comment } = req.body;
   const userId = req.user.id;
@@ -74,12 +74,7 @@ const createReview = asyncHandler(async (req, res) => {
       data: updatedProduct,
     });
   } catch (error) {
-    console.error("Error creating review:", error);
-    res.status(500).json({
-      statusCode: 500,
-      success: false,
-      message: "Error creating review",
-    });
+    next(error)
   }
 });
 

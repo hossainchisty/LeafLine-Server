@@ -1,7 +1,6 @@
-const asyncHandler = require("express-async-handler");
-const Book = require("../models/bookModel");
-const { sendResponse } = require("../services/responseService");
-const { sendError } = require("../services/errorService");
+const asyncHandler = require('express-async-handler');
+const Book = require('../models/bookModel');
+const { sendResponse } = require('../services/responseService');
 
 // Get books for a given user request
 const getBooks = asyncHandler(async (req, res) => {
@@ -10,7 +9,7 @@ const getBooks = asyncHandler(async (req, res) => {
     res,
     200,
     false,
-    "Books data fetched successfully!",
+    'Books data fetched successfully!',
     books
   );
 });
@@ -30,7 +29,7 @@ const getBooksList = asyncHandler(async (req, res) => {
   const nextPage = page < totalPages ? page + 1 : null;
   const prevPage = page > 1 ? page - 1 : null;
 
-  return sendResponse(res, 200, true, "Books data fetched successfully!", {
+  return sendResponse(res, 200, true, 'Books data fetched successfully!', {
     books,
     currentPage: page,
     totalPages,
@@ -40,7 +39,7 @@ const getBooksList = asyncHandler(async (req, res) => {
 });
 
 // Get a book by ID
-const getBookByID = asyncHandler(async (req, res) => {
+const getBookByID = asyncHandler(async (req, res, next) => {
   const bookId = req.params.id;
 
   try {
@@ -51,37 +50,36 @@ const getBookByID = asyncHandler(async (req, res) => {
     ).lean();
 
     if (!book) {
-      return sendResponse(res, 404, false, "No books found");
+      return sendResponse(res, 404, false, 'No books found');
     }
 
-    return sendResponse(res, 200, true, "Books retrieved successfully", book);
+    return sendResponse(res, 200, true, 'Books retrieved successfully', book);
   } catch (error) {
-    console.log(error);
-    return sendError(res, 500, "Internal server error");
+    next(error);
   }
 });
 
 // Get a book by title
-const getBookByTitle = asyncHandler(async (req, res) => {
+const getBookByTitle = asyncHandler(async (req, res, next) => {
   const title = req.params.title;
 
   try {
     const books = await Book.find({
-      title: { $regex: new RegExp(title, "i") },
+      title: { $regex: new RegExp(title, 'i') },
     });
 
     if (books.length === 0) {
-      return sendResponse(res, 404, false, "No books found");
+      return sendResponse(res, 404, false, 'No books found');
     }
 
-    return sendResponse(res, 200, true, "Books retrieved successfully", books);
+    return sendResponse(res, 200, true, 'Books retrieved successfully', books);
   } catch (error) {
-    return sendError(res, 500, false, "Internal server error");
+    next(error);
   }
 });
 
 // Create a new book for the authenticated user
-const addBook = asyncHandler(async (req, res) => {
+const addBook = asyncHandler(async (req, res, next) => {
   try {
     const {
       title,
@@ -117,14 +115,14 @@ const addBook = asyncHandler(async (req, res) => {
     };
 
     const book = await Book.create(bookData);
-    return sendResponse(res, 201, true, "Book created successfully", book);
+    return sendResponse(res, 201, true, 'Book created successfully', book);
   } catch (error) {
-    return sendError(res, 500, false, "Internal server error");
+    next(error)
   }
 });
 
 // Update book
-const updateBook = asyncHandler(async (req, res) => {
+const updateBook = asyncHandler(async (req, res, next) => {
   try {
     const {
       id,
@@ -139,7 +137,7 @@ const updateBook = asyncHandler(async (req, res) => {
 
     const book = await Book.findById(id).lean();
     if (!book) {
-      return sendResponse(res, 404, false, "Book not found");
+      return sendResponse(res, 404, false, 'Book not found');
     }
 
     if (book.user.toString() !== req.user.id) {
@@ -147,7 +145,7 @@ const updateBook = asyncHandler(async (req, res) => {
         res,
         403,
         false,
-        "Unauthorized - User does not have permission to update this book"
+        'Unauthorized - User does not have permission to update this book'
       );
     }
 
@@ -156,20 +154,19 @@ const updateBook = asyncHandler(async (req, res) => {
       { title, price, rating, featured, author, thumbnail, publishYear }
     );
 
-    return sendResponse(res, 200, true, "Book updated successfully");
+    return sendResponse(res, 200, true, 'Book updated successfully');
   } catch (error) {
-    console.log(error);
-    return sendError(res, 500, "Internal server error");
+    next(error);
   }
 });
 
 // Delete book
-const deleteBook = asyncHandler(async (req, res) => {
+const deleteBook = asyncHandler(async (req, res, next) => {
   try {
     const book = await Book.findById(req.params.id);
 
     if (!book) {
-      return sendResponse(res, 404, true, "Book not found");
+      return sendResponse(res, 404, true, 'Book not found');
     }
 
     if (book.user.toString() !== req.user.id) {
@@ -177,37 +174,35 @@ const deleteBook = asyncHandler(async (req, res) => {
         res,
         403,
         false,
-        "Unauthorized - User does not have permission to delete this book"
+        'Unauthorized - User does not have permission to delete this book'
       );
     }
 
     const deletedBook = await Book.findByIdAndRemove(req.params.id, req.body, {
       new: true,
     });
-    return sendResponse(res, 200, false, "Book was deleted", deletedBook);
+    return sendResponse(res, 200, false, 'Book was deleted', deletedBook);
   } catch (error) {
-    console.log(error);
-    return sendError(res, 500, false, "Internal server error");
+    next(error);
   }
 });
 
 // Search books by title
-const searchBook = asyncHandler(async (req, res) => {
+const searchBook = asyncHandler(async (req, res, next) => {
   const { title, author } = req.query;
 
   try {
     const books = await Book.find({
-      title: { $regex: new RegExp(title, "i") },
-      author: { $regex: new RegExp(author, "i") },
+      title: { $regex: new RegExp(title, 'i') },
+      author: { $regex: new RegExp(author, 'i') },
     });
 
     if (books.length === 0) {
-      return sendResponse(res, 404, false, "Book not found");
+      return sendResponse(res, 404, false, 'Book not found');
     }
-    return sendResponse(res, 200, true, "Books retrieved successfully", books);
+    return sendResponse(res, 200, true, 'Books retrieved successfully', books);
   } catch (error) {
-    console.error(error);
-    return sendError(res, 500, false, "Internal server error");
+    next(error);
   }
 });
 
