@@ -1,3 +1,12 @@
+## [2.23.1](https://github.com/hossainchisty/LeafLine-Server/compare/v2.23.0...v2.23.1) (2023-09-30)
+
+
+### Performance Improvements
+
+* improve codebase remove unused code ([2b7c7ed](https://github.com/hossainchisty/LeafLine-Server/commit/2b7c7edd12e3d17ec4aa066e115b6a590600a89b))
+
+
+
 # [2.23.0](https://github.com/hossainchisty/LeafLine-Server/compare/v2.22.0...v2.23.0) (2023-09-28)
 
 
@@ -48,15 +57,6 @@
 ### Features
 
 * User can buy books and  pay with stripe ([5015366](https://github.com/hossainchisty/LeafLine-Server/commit/5015366d157761ee41dadd8d12e26978d9b7f914))
-
-
-
-## [1.19.1](https://github.com/hossainchisty/LeafLine-Server/compare/v1.19.0...v1.19.1) (2023-09-19)
-
-
-### Bug Fixes
-
-* remove cors ([3804aa1](https://github.com/hossainchisty/LeafLine-Server/commit/3804aa1e2d6273a4eb9b40b35667d901ac9ccb24))
 
 
 
