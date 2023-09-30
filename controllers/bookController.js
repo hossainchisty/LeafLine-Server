@@ -1,6 +1,6 @@
-const asyncHandler = require('express-async-handler');
-const Book = require('../models/bookModel');
-const { sendResponse } = require('../services/responseService');
+const asyncHandler = require("express-async-handler");
+const Book = require("../models/bookModel");
+const { sendResponse } = require("../services/responseService");
 
 // Get books for a given user request
 const getBooks = asyncHandler(async (req, res) => {
@@ -9,8 +9,8 @@ const getBooks = asyncHandler(async (req, res) => {
     res,
     200,
     false,
-    'Books data fetched successfully!',
-    books
+    "Books data fetched successfully!",
+    books,
   );
 });
 
@@ -29,7 +29,7 @@ const getBooksList = asyncHandler(async (req, res) => {
   const nextPage = page < totalPages ? page + 1 : null;
   const prevPage = page > 1 ? page - 1 : null;
 
-  return sendResponse(res, 200, true, 'Books data fetched successfully!', {
+  return sendResponse(res, 200, true, "Books data fetched successfully!", {
     books,
     currentPage: page,
     totalPages,
@@ -46,14 +46,14 @@ const getBookByID = asyncHandler(async (req, res, next) => {
     const book = await Book.findByIdAndUpdate(
       bookId,
       { $inc: { read: 1 } },
-      { new: true }
+      { new: true },
     ).lean();
 
     if (!book) {
-      return sendResponse(res, 404, false, 'No books found');
+      return sendResponse(res, 404, false, "No books found");
     }
 
-    return sendResponse(res, 200, true, 'Books retrieved successfully', book);
+    return sendResponse(res, 200, true, "Books retrieved successfully", book);
   } catch (error) {
     next(error);
   }
@@ -65,14 +65,14 @@ const getBookByTitle = asyncHandler(async (req, res, next) => {
 
   try {
     const books = await Book.find({
-      title: { $regex: new RegExp(title, 'i') },
+      title: { $regex: new RegExp(title, "i") },
     });
 
     if (books.length === 0) {
-      return sendResponse(res, 404, false, 'No books found');
+      return sendResponse(res, 404, false, "No books found");
     }
 
-    return sendResponse(res, 200, true, 'Books retrieved successfully', books);
+    return sendResponse(res, 200, true, "Books retrieved successfully", books);
   } catch (error) {
     next(error);
   }
@@ -115,9 +115,9 @@ const addBook = asyncHandler(async (req, res, next) => {
     };
 
     const book = await Book.create(bookData);
-    return sendResponse(res, 201, true, 'Book created successfully', book);
+    return sendResponse(res, 201, true, "Book created successfully", book);
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
@@ -137,7 +137,7 @@ const updateBook = asyncHandler(async (req, res, next) => {
 
     const book = await Book.findById(id).lean();
     if (!book) {
-      return sendResponse(res, 404, false, 'Book not found');
+      return sendResponse(res, 404, false, "Book not found");
     }
 
     if (book.user.toString() !== req.user.id) {
@@ -145,16 +145,16 @@ const updateBook = asyncHandler(async (req, res, next) => {
         res,
         403,
         false,
-        'Unauthorized - User does not have permission to update this book'
+        "Unauthorized - User does not have permission to update this book",
       );
     }
 
     await Book.updateOne(
       { _id: id },
-      { title, price, rating, featured, author, thumbnail, publishYear }
+      { title, price, rating, featured, author, thumbnail, publishYear },
     );
 
-    return sendResponse(res, 200, true, 'Book updated successfully');
+    return sendResponse(res, 200, true, "Book updated successfully");
   } catch (error) {
     next(error);
   }
@@ -166,7 +166,7 @@ const deleteBook = asyncHandler(async (req, res, next) => {
     const book = await Book.findById(req.params.id);
 
     if (!book) {
-      return sendResponse(res, 404, true, 'Book not found');
+      return sendResponse(res, 404, true, "Book not found");
     }
 
     if (book.user.toString() !== req.user.id) {
@@ -174,14 +174,14 @@ const deleteBook = asyncHandler(async (req, res, next) => {
         res,
         403,
         false,
-        'Unauthorized - User does not have permission to delete this book'
+        "Unauthorized - User does not have permission to delete this book",
       );
     }
 
     const deletedBook = await Book.findByIdAndRemove(req.params.id, req.body, {
       new: true,
     });
-    return sendResponse(res, 200, false, 'Book was deleted', deletedBook);
+    return sendResponse(res, 200, false, "Book was deleted", deletedBook);
   } catch (error) {
     next(error);
   }
@@ -193,14 +193,14 @@ const searchBook = asyncHandler(async (req, res, next) => {
 
   try {
     const books = await Book.find({
-      title: { $regex: new RegExp(title, 'i') },
-      author: { $regex: new RegExp(author, 'i') },
+      title: { $regex: new RegExp(title, "i") },
+      author: { $regex: new RegExp(author, "i") },
     });
 
     if (books.length === 0) {
-      return sendResponse(res, 404, false, 'Book not found');
+      return sendResponse(res, 404, false, "Book not found");
     }
-    return sendResponse(res, 200, true, 'Books retrieved successfully', books);
+    return sendResponse(res, 200, true, "Books retrieved successfully", books);
   } catch (error) {
     next(error);
   }

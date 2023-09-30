@@ -25,10 +25,10 @@ exports.getCartItems = async (req, res, next) => {
       200,
       true,
       "Cart items retrieved successfully",
-      cart
+      cart,
     );
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
@@ -59,18 +59,18 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
 
     // Check if the book already exists in the cart
     const existingCartItem = cart.items.find((item) =>
-      item.book.equals(productId)
+      item.book.equals(productId),
     );
 
     if (existingCartItem) {
       // If the book already exists, update the quantity
       existingCartItem.quantity += quantity;
       existingCartItem.subTotal = Math.round(
-        book.price * existingCartItem.quantity
+        book.price * existingCartItem.quantity,
       );
       existingCartItem.totalPrice = Math.round(
         book.price * existingCartItem.quantity +
-          book.shippingFees * existingCartItem.quantity
+          book.shippingFees * existingCartItem.quantity,
       );
     } else {
       // If the book doesn't exist in the cart, create a new cart item
@@ -93,7 +93,7 @@ exports.addToCart = asyncHandler(async (req, res, next) => {
 
     return sendResponse(res, 200, true, "Item added to cart successfully");
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
@@ -116,7 +116,7 @@ exports.removeItemFromCart = async (req, res, next) => {
 
     // Find the index of the item to be removed
     const itemIndex = cart.items.findIndex((item) =>
-      item.book.equals(productId)
+      item.book.equals(productId),
     );
 
     if (itemIndex === -1) {
@@ -128,7 +128,7 @@ exports.removeItemFromCart = async (req, res, next) => {
     await cart.save();
     return sendResponse(res, 200, true, "Item removed from cart");
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
@@ -149,10 +149,10 @@ exports.removeAllItemsFromCart = async (req, res, next) => {
       res,
       200,
       true,
-      "All items removed from the cart successfully"
+      "All items removed from the cart successfully",
     );
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
@@ -190,9 +190,9 @@ exports.updateCartItemQuantity = asyncHandler(async (req, res, next) => {
       res,
       200,
       true,
-      "Cart item quantity updated successfully"
+      "Cart item quantity updated successfully",
     );
   } catch (error) {
-    next(error)
+    next(error);
   }
 });

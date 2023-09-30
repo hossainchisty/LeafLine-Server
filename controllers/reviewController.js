@@ -52,13 +52,13 @@ const createReview = asyncHandler(async (req, res, next) => {
           },
         },
       },
-      { new: true }
+      { new: true },
     );
 
     const totalReviews = updatedProduct.reviews.length;
     const sumRatings = updatedProduct.reviews.reduce(
       (sum, review) => sum + review.rating,
-      0
+      0,
     );
 
     // Calculate the new average rating for the product
@@ -74,7 +74,7 @@ const createReview = asyncHandler(async (req, res, next) => {
       data: updatedProduct,
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 

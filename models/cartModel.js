@@ -27,7 +27,7 @@ const cartItemSchema = new mongoose.Schema(
       default: 0,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 const cartSchema = new mongoose.Schema(
@@ -39,7 +39,7 @@ const cartSchema = new mongoose.Schema(
     },
     items: [cartItemSchema],
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
 module.exports = mongoose.model("Cart", cartSchema);
