@@ -8,14 +8,14 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const expressRateLimit = require('express-rate-limit');
-const { errorHandler, notFound } = require('./middleware/errorMiddleware');
+const { errorHandler, notFound } = require('./src/middleware/errorMiddleware');
 
 
-const apis = require('./routes/index');
+const apis = require('./src/routes/index');
 
 // Database connection with mongoose
 require('dotenv').config();
-const connectDB = require('./config/db');
+const connectDB = require('./src/config/db');
 connectDB();
 
 const app = express();
