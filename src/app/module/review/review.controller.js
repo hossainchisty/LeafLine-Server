@@ -1,83 +1,56 @@
 // Import the necessary models and dependencies
 const asyncHandler = require("express-async-handler");
-const Book = require("../book/book.model");
+const Review = require('./review.model');
 
 /**
- * @desc     Create a new review
- * @route    /api/v1/reviews/:bookId
+ * @desc     Leave a review and rating for a book
+ * @route    /api/v1/reviews/leave-review
  * @method   POST
  * @access   Private
- * @param    {string} bookId - The ID of the product being reviewed
  * @requires  {number} rating - The rating given to the product (between 1 and 5)
  * @requires  {string} comment - The comment or review text
  * @returns  {Object} The newly created review
  * @requires User Account
  */
 
-const createReview = asyncHandler(async (req, res, next) => {
-  const { bookId } = req.params;
-  const { rating, comment } = req.body;
-  const userId = req.user.id;
 
+exports.leaveReviewAndRating = asyncHandler(async (req, res, next) => {
   try {
-    const product = await Book.findOne({ _id: bookId }).lean();
-
-    if (!product) {
-      return res.status(404).json({
-        statusCode: 404,
-        message: "Product not found.",
-      });
-    }
-
-    // const existingReview = product.reviews.find(
-    //   (review) => review.user && review.user.toString() === userId
-    // );
-
-    // if (existingReview) {
-    //   return res.status(409).json({
-    //     statusCode: 409,
-    //     success: false,
-    //     message: "You have already reviewed this product.",
-    //   });
-    // }
-
-    const updatedProduct = await Book.findByIdAndUpdate(
-      bookId,
-      {
-        $addToSet: {
-          reviews: {
-            user: userId,
-            rating,
-            comment,
-          },
-        },
-      },
-      { new: true }
-    );
-
-    const totalReviews = updatedProduct.reviews.length;
-    const sumRatings = updatedProduct.reviews.reduce(
-      (sum, review) => sum + review.rating,
-      0
-    );
-
-    // Calculate the new average rating for the product
-    const averageRating = sumRatings / totalReviews;
-    updatedProduct.averageRating = averageRating;
-
-    await updatedProduct.save();
-
-    res.status(201).json({
-      statusCode: 201,
-      success: true,
-      message: "Review submitted successfully",
-      data: updatedProduct,
-    });
+    const { user_id, book_id, rating, content } = req.body;
+    const review = await Review.create({ user_id, book_id, rating, content });
+    res.status(201).json({ message: 'Review posted successfully', review });
   } catch (error) {
-    next(error)
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-module.exports = {
-  createReview,
+
+
+exports.viewAverageRatingsAndReviews = async (req, res) => {
+  try {
+    const { bookId } = req.params;
+    const reviews = await Review.find({ book_id: bookId });
+    const totalRatings = reviews.reduce((sum, review) => sum + review.rating, 0);
+    const averageRating = reviews.length > 0 ? totalRatings / reviews.length : 0;
+    res.json({ averageRating, reviews });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
+
+exports.likeOrUpvoteReview = async (req, res) => {
+  try {
+    const { reviewId } = req.body;
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+    review.likes = review.likes + 1 || 1;
+    await review.save();
+    res.json({ message: 'Review liked successfully', review });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
