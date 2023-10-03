@@ -1,23 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const {
-  getBooks,
-  getBookByID,
-  getBooksList,
-  getBookByTitle,
-  addBook,
-  updateBook,
-  deleteBook,
-  searchBook,
-} = require('./book.controller');
+const bookController = require('./book.controller');
 
 // API Endpoints for Managing Books
-router.get('/list', getBooksList);
-router.get('/find/:title', getBookByTitle);
-router.get('/book/search', searchBook);
-router.get('/:id', getBookByID);
-router.delete('/:id', deleteBook);
-router.route('/').get(getBooks).post(addBook).put(updateBook);
+router.get('/list', bookController.getBooksList);
+router.get('/find/:title', bookController.getBookByTitle);
+router.get('/book/search', bookController.searchBook);
+router.get('/:id', bookController.getBookByID);
+router.delete('/:id', bookController.deleteBook);
+router.route('/').get(bookController.getBooks).post(bookController.addBook).put(bookController.updateBook);
 
 module.exports = router;
