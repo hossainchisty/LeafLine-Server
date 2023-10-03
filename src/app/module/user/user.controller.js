@@ -1,7 +1,7 @@
 // Basic Lib Import
-const User = require("../models/userModel");
+const User = require("./user.model");
 const asyncHandler = require("express-async-handler");
-const verifyAuthorization = require("../utility/verifyAuthorization");
+const verifyAuthorization = require("../../../utility/verifyAuthorization");
 
 /**
  * @desc    Get user data

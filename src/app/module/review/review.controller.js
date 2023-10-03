@@ -1,6 +1,6 @@
 // Import the necessary models and dependencies
 const asyncHandler = require("express-async-handler");
-const Book = require("../models/bookModel");
+const Book = require("../book/book.model");
 
 /**
  * @desc     Create a new review

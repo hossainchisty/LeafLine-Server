@@ -1,4 +1,5 @@
 // Basic Lib Imports
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
@@ -8,42 +9,21 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const expressRateLimit = require('express-rate-limit');
-const { errorHandler, notFound } = require('./src/middleware/errorMiddleware');
+const { errorHandler, notFound } = require('./src/app/middleware/errorMiddleware');
 
 
-const apis = require('./src/routes/index');
+const applicationRoutes = require('./src/app/routes/index');
 
 // Database connection with mongoose
-require('dotenv').config();
 const connectDB = require('./src/config/db');
 connectDB();
 
 const app = express();
 
 app.use(helmet());
-
-// log responses to console
 app.use(morgan('dev'));
-
-// log all requests to access.log
-app.use(
-  morgan('common', {
-    stream: fs.createWriteStream(path.join(__dirname, '/logs/access.log'), {
-      flags: 'a',
-    }),
-  })
-);
-
 app.use(bodyParser.json());
 app.use(cookieParser());
-const limiter = expressRateLimit({
-  max: 100,
-  windowsMs: 60 * 60 * 1000,
-  message: 'Too many requests',
-  standartHeaders: true,
-  legacyHeaders: false,
-});
-app.use(express.json({ limit: limiter }));
 app.use(cors('*'));
 
 // // Define an array of allowed origins
@@ -68,19 +48,23 @@ app.use(cors('*'));
 // }));
 
 app.use(
+  morgan('common', {
+    stream: fs.createWriteStream(path.join(__dirname, '/src/logs/access.log'), {
+      flags: 'a',
+    }),
+  })
+);
+app.use(
   express.urlencoded({
     extended: false,
   })
 );
-
-app.use('/api/v1/', apis);
-
+app.use('/api/v1/', applicationRoutes);
 app.use('/', (req, res) => {
   res
     .status(200)
     .json({ statusCode: 200, success: true, message: 'Health OK' });
 });
-
 app.use(notFound);
 app.use(errorHandler);
 

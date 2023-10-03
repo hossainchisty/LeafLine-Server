@@ -1,5 +1,5 @@
-const Order = require("../models/orderModel");
-const { sendResponse } = require("../services/responseService");
+const Order = require("./order.model");
+const { sendResponse } = require("../../../services/responseService");
 
 /**
  * @desc    Get order lists of customers

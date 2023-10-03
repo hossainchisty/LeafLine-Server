@@ -8,9 +8,9 @@ const {
   removeItemFromCart,
   removeAllItemsFromCart,
   updateCartItemQuantity,
-} = require("../controllers/cartController");
+} = require("./cart.controller");
 
-const { authMiddleware } = require("../middleware/authMiddleware");
+const { authMiddleware } = require("../../middleware/authMiddleware");
 
 // Routing Implement
 router.get("/", authMiddleware, getCartItems);

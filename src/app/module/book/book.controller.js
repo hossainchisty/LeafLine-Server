@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
-const Book = require('../models/bookModel');
-const { sendResponse } = require('../services/responseService');
+const Book = require('../book/book.model');
+const { sendResponse } = require('../../../services/responseService');
 
 // Get books for a given user request
 const getBooks = asyncHandler(async (req, res) => {

@@ -1,7 +1,7 @@
-const Cart = require("../models/cartModel");
-const Book = require("../models/bookModel");
+const Cart = require("./cart.model");
+const Book = require("../book/book.model");
 const asyncHandler = require("express-async-handler");
-const { sendResponse } = require("../services/responseService");
+const { sendResponse } = require("../../../services/responseService");
 
 /**
  * @desc    Get user's cart

@@ -1,5 +1,5 @@
-const User = require("../models/userModel");
-const Book = require("../models/bookModel");
+const User = require("../user/user.model");
+const Book = require("../book/book.model");
 const asyncHandler = require("express-async-handler");
 
 /**

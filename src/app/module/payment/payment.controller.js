@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Order = require("../models/orderModel");
+const Order = require("../order/order.model");
 const stripe = require("stripe")(`${process.env.STRIPE_API_KEY}`);
 
 /**

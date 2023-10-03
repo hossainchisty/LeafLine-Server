@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const Book = require("../models/bookModel");
-const User = require("../models/userModel");
+const Book = require("../book/book.model");
+const User = require("../user/user.model");
 
 // Get analytics for admin panel
 const dashboard = asyncHandler(async (req, res) => {

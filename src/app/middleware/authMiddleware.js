@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
+const User = require("../module/user/user.model");
 
 /**
  * @desc   Middleware that verifies user authorization
