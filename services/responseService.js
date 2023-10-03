@@ -32,4 +32,3 @@ function sendResponse(res, statusCode, success, message, data) {
 module.exports = {
   sendResponse,
 };
-  

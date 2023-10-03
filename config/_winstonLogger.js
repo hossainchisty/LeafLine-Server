@@ -6,7 +6,9 @@ const logger = winston.createLogger({
     winston.format.timestamp(),
     winston.format.json(),
   ),
-  transports: [new winston.transports.File({ filename: "logs/winston/email-sender.log" })],
+  transports: [
+    new winston.transports.File({ filename: "logs/winston/email-sender.log" }),
+  ],
 });
 
 // If we're not in production then log to the `console` with the format:

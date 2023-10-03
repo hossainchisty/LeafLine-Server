@@ -1,18 +1,18 @@
 // Basic Lib Import
-require('dotenv').config();
-const moment = require('moment');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
-const asyncHandler = require('express-async-handler');
-const User = require('../models/userModel');
+require("dotenv").config();
+const moment = require("moment");
+const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
+const asyncHandler = require("express-async-handler");
+const User = require("../models/userModel");
 const {
   generateToken,
   generateResetToken,
-} = require('../helper/generateToken');
+} = require("../helper/generateToken");
 const {
   sendVerificationEmail,
   sendResetPasswordLink,
-} = require('../services/emailService');
+} = require("../services/emailService");
 
 /**
  * @desc    Register new user
@@ -28,11 +28,11 @@ const registerUser = async (req, res, next) => {
     if (!full_name) {
       return res.status(400).json({
         status: 400,
-        message: 'Validation error',
+        message: "Validation error",
         errors: [
           {
-            field: 'full_name',
-            message: 'Full name field is required',
+            field: "full_name",
+            message: "Full name field is required",
           },
         ],
       });
@@ -41,11 +41,11 @@ const registerUser = async (req, res, next) => {
     if (!email) {
       return res.status(400).json({
         status: 400,
-        message: 'Validation error',
+        message: "Validation error",
         errors: [
           {
-            field: 'email',
-            message: 'Email field is required',
+            field: "email",
+            message: "Email field is required",
           },
         ],
       });
@@ -54,11 +54,11 @@ const registerUser = async (req, res, next) => {
     if (!password) {
       return res.status(400).json({
         status: 400,
-        message: 'Validation error',
+        message: "Validation error",
         errors: [
           {
-            field: 'password',
-            message: 'Password field is required',
+            field: "password",
+            message: "Password field is required",
           },
         ],
       });
@@ -69,9 +69,9 @@ const registerUser = async (req, res, next) => {
     if (userExists) {
       return res.status(409).json({
         status: 409,
-        error: 'User already exists',
+        error: "User already exists",
         message:
-          'A user with the provided information already exists in the system.',
+          "A user with the provided information already exists in the system.",
       });
     }
 
@@ -84,8 +84,8 @@ const registerUser = async (req, res, next) => {
       {
         full_name,
         email,
-        verificationToken: crypto.randomBytes(20).toString('hex'),
-        verificationTokenExpiry: moment().add(1, 'hour'),
+        verificationToken: crypto.randomBytes(20).toString("hex"),
+        verificationTokenExpiry: moment().add(1, "hour"),
         password: hashedPassword,
       },
     ];
@@ -101,13 +101,13 @@ const registerUser = async (req, res, next) => {
       res.status(201).json({
         statusCode: 201,
         success: true,
-        message: 'Please check your email to verify your account.',
+        message: "Please check your email to verify your account.",
       });
     } else {
       res.status(400).json({
         status: 400,
-        error: 'Bad Request',
-        message: 'User with the provided data unprocessable.',
+        error: "Bad Request",
+        message: "User with the provided data unprocessable.",
       });
     }
   } catch (error) {
@@ -130,16 +130,16 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!user) {
     res.status(404).json({
       status: 404,
-      error: '404 Not Found',
-      message: 'User not found',
+      error: "404 Not Found",
+      message: "User not found",
     });
   }
 
   if (!user.isVerified) {
     return res.status(403).json({
       status: 403,
-      error: 'Forbidden',
-      message: 'User not verified',
+      error: "Forbidden",
+      message: "User not verified",
     });
   }
 
@@ -149,14 +149,14 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: 'User signin successfully!',
+      message: "User signin successfully!",
       data: { token, user },
     });
   } else {
     res.status(400).json({
       status: 400,
-      error: 'Bad Request',
-      message: 'Invalid credentials',
+      error: "Bad Request",
+      message: "Invalid credentials",
     });
   }
 });
@@ -174,7 +174,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({
     statusCode: 200,
     success: true,
-    message: 'Logged out successfully',
+    message: "Logged out successfully",
   });
 });
 
@@ -195,7 +195,7 @@ const emailVerify = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({
         status: 404,
-        message: 'Invalid verification token',
+        message: "Invalid verification token",
       });
     }
 
@@ -204,7 +204,7 @@ const emailVerify = async (req, res, next) => {
     if (now.isAfter(user.verificationTokenExpiry)) {
       return res.status(400).json({
         status: 400,
-        message: 'Verification token has expired',
+        message: "Verification token has expired",
       });
     }
 
@@ -216,7 +216,7 @@ const emailVerify = async (req, res, next) => {
 
     return res.status(200).json({
       status: 200,
-      message: 'User verified successfully',
+      message: "User verified successfully",
     });
   } catch (error) {
     next(error);
@@ -240,7 +240,7 @@ const forgetPassword = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({
         code: 404,
-        message: 'User not found',
+        message: "User not found",
       });
     }
 
@@ -254,7 +254,7 @@ const forgetPassword = async (req, res, next) => {
           resetPasswordToken,
           resetPasswordExpiry,
         },
-      }
+      },
     );
 
     // Send password reset email
@@ -264,7 +264,7 @@ const forgetPassword = async (req, res, next) => {
 
     res.status(200).json({
       status: 200,
-      message: 'Link has been sent to your email!',
+      message: "Link has been sent to your email!",
     });
   } catch (error) {
     next(error);
@@ -293,7 +293,7 @@ const resetPassword = async (req, res, next) => {
     if (!user) {
       return res.status(400).json({
         status: 400,
-        message: 'Invalid or expired token',
+        message: "Invalid or expired token",
       });
     }
 
@@ -308,7 +308,7 @@ const resetPassword = async (req, res, next) => {
 
     res.status(200).json({
       status: 200,
-      message: 'Password reset successful',
+      message: "Password reset successful",
     });
   } catch (error) {
     next(error);

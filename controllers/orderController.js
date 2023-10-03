@@ -63,10 +63,10 @@ const updateOrderStatus = async (req, res, next) => {
       200,
       true,
       "Order status updated successfully",
-      order
+      order,
     );
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 

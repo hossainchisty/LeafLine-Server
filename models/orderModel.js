@@ -69,7 +69,7 @@ const orderSchema = mongoose.Schema(
       required: false,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
 // Middleware to generate custom transactionId

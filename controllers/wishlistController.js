@@ -34,7 +34,7 @@ const getWishlistBooks = asyncHandler(async (req, res, next) => {
       wishlistedBooks,
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
@@ -123,7 +123,7 @@ const removeFromWishlist = asyncHandler(async (req, res, next) => {
     // Return a 204 No Content status code
     res.status(204).send();
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 

@@ -98,7 +98,7 @@ const createOrder = async (req, res, next) => {
           isPaid: false,
         },
       ],
-      { session }
+      { session },
     );
 
     // Convert totalAmount to cents
@@ -116,7 +116,7 @@ const createOrder = async (req, res, next) => {
 
     // Update the isPaid field on newOrder
     newOrder.isPaid = true;
-    
+
     // Save the changes
     await newOrder.save();
 
@@ -129,7 +129,7 @@ const createOrder = async (req, res, next) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
-    next(error)
+    next(error);
   }
 };
 

@@ -95,15 +95,11 @@ const bookSchema = mongoose.Schema(
     pages: { type: String, required: true },
     publisher: { type: String, required: true },
   },
-  { timestamps: true, versionKey: false }
-  
+  { timestamps: true, versionKey: false },
 );
 
 // Static methods to the schema for filtering and sorting
-bookSchema.statics.filterAndSort = async function (
-  filterOptions,
-  sortOptions,
-) {
+bookSchema.statics.filterAndSort = async function (filterOptions, sortOptions) {
   const query = this.find();
 
   if (filterOptions) {
