@@ -8,14 +8,13 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const expressRateLimit = require('express-rate-limit');
-const { errorHandler, notFound } = require('./src/app/middleware/errorMiddleware');
+const { errorHandler, notFound } = require('./app/middleware/errorMiddleware');
 
 
-const applicationRoutes = require('./src/app/routes/index');
+const applicationRoutes = require('./app/routes/index');
 
 // Database connection with mongoose
-const connectDB = require('./src/config/db');
+const connectDB = require('./config/db');
 connectDB();
 
 const app = express();
@@ -49,7 +48,7 @@ app.use(cors('*'));
 
 app.use(
   morgan('common', {
-    stream: fs.createWriteStream(path.join(__dirname, '/src/logs/access.log'), {
+    stream: fs.createWriteStream(path.join(__dirname, '/logs/access.log'), {
       flags: 'a',
     }),
   })
