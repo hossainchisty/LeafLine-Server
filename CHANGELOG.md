@@ -1,3 +1,12 @@
+## [3.24.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.24.0...v3.24.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* change npm install type ([fc0967e](https://github.com/hossainchisty/LeafLine-Server/commit/fc0967ee9d75675a73c8d110c9033db155e22caa))
+
+
+
 # [3.24.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.23.11...v3.24.0) (2023-10-04)
 
 
@@ -47,16 +56,6 @@
 ### Features
 
 * Addon after buy products remove carts item ([ea4a4ae](https://github.com/hossainchisty/LeafLine-Server/commit/ea4a4ae38557e15a6b1d539fb98674ee10a29c9f))
-
-
-
-# [1.21.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.20.0...v1.21.0) (2023-09-24)
-
-
-### Features
-
-* Additional fields for books ([d787ef2](https://github.com/hossainchisty/LeafLine-Server/commit/d787ef24b3e5e36aa044a5eb637f0bb6bd9c27c1))
-* Addon new field ([b93f502](https://github.com/hossainchisty/LeafLine-Server/commit/b93f502e6a0856301da72eb6f3049b3108898283))
 
 
 
