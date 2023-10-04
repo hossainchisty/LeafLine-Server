@@ -1,3 +1,12 @@
+# [3.24.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.23.11...v3.24.0) (2023-10-04)
+
+
+### Features
+
+* Introduce review module ([2f7a7dc](https://github.com/hossainchisty/LeafLine-Server/commit/2f7a7dcca2f33f87d4b30260ed85246a624995e0))
+
+
+
 ## [3.23.11](https://github.com/hossainchisty/LeafLine-Server/compare/v2.23.0...v3.23.11) (2023-10-03)
 
 
@@ -48,15 +57,6 @@
 
 * Additional fields for books ([d787ef2](https://github.com/hossainchisty/LeafLine-Server/commit/d787ef24b3e5e36aa044a5eb637f0bb6bd9c27c1))
 * Addon new field ([b93f502](https://github.com/hossainchisty/LeafLine-Server/commit/b93f502e6a0856301da72eb6f3049b3108898283))
-
-
-
-# [1.20.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.19.1...v1.20.0) (2023-09-24)
-
-
-### Features
-
-* User can buy books and  pay with stripe ([5015366](https://github.com/hossainchisty/LeafLine-Server/commit/5015366d157761ee41dadd8d12e26978d9b7f914))
 
 
 
