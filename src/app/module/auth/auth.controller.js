@@ -4,15 +4,15 @@ const moment = require('moment');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const asyncHandler = require('express-async-handler');
-const User = require('../models/userModel');
+const User = require('../user/user.model');
 const {
   generateToken,
   generateResetToken,
-} = require('../helper/generateToken');
+} = require('../../../helper/generateToken');
 const {
   sendVerificationEmail,
   sendResetPasswordLink,
-} = require('../services/emailService');
+} = require('../../../services/emailService');
 
 /**
  * @desc    Register new user
