@@ -8,7 +8,7 @@ const { sendResponse } = require("../../../services/responseService");
  * @access  Private
  */
 
-const orderLists = async (req, res) => {
+exports.orderLists = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const itemsPerPage = 12;
   const skip = (page - 1) * itemsPerPage;
@@ -42,7 +42,7 @@ const orderLists = async (req, res) => {
  * @access  Private
  */
 
-const updateOrderStatus = async (req, res, next) => {
+exports.updateOrderStatus = async (req, res, next) => {
   const { orderId } = req.params;
   const { newStatus } = req.body;
 
@@ -68,9 +68,4 @@ const updateOrderStatus = async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-};
-
-module.exports = {
-  orderLists,
-  updateOrderStatus,
 };
