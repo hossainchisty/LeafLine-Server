@@ -50,24 +50,6 @@ const bookSchema = mongoose.Schema(
       trim: true,
       indexedDB: true,
     },
-    reviews: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-        rating: {
-          type: Number,
-          required: true,
-          minlength: 1,
-          maxlength: 5,
-        },
-        comment: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
     averageRating: {
       type: Number,
       required: false,

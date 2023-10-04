@@ -1,21 +1,17 @@
 const asyncHandler = require('express-async-handler');
 const Book = require('../book/book.model');
+const bookService = require('./book.services');
 const { sendResponse } = require('../../../services/responseService');
 
-// Get books for a given user request
-const getBooks = asyncHandler(async (req, res) => {
-  const books = await Book.find({ user: req.user.id }).sort({ createdAt: -1 });
-  return sendResponse(
-    res,
-    200,
-    false,
-    'Books data fetched successfully!',
-    books
-  );
-});
-
-// Get list of books
-const getBooksList = asyncHandler(async (req, res) => {
+/**
+ * Retrieves a paginated list of books from the database.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} Paginated list of books, along with pagination details.
+ * @throws {Error} Throws an error if there's an issue fetching books data.
+ */
+exports.getBooksList = asyncHandler(async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const itemsPerPage = 12;
   const skip = (page - 1) * itemsPerPage;
@@ -38,16 +34,20 @@ const getBooksList = asyncHandler(async (req, res) => {
   });
 });
 
-// Get a book by ID
-const getBookByID = asyncHandler(async (req, res, next) => {
+/**
+ * Retrieves a book by its ID and increments its read count.
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ * @returns {Object} Retrieved book details.
+ * @throws {Error} Throws an error if there's an issue fetching the book data.
+ */
+exports.getBookByID = asyncHandler(async (req, res, next) => {
   const bookId = req.params.id;
 
   try {
-    const book = await Book.findByIdAndUpdate(
-      bookId,
-      { $inc: { read: 1 } },
-      { new: true }
-    ).lean();
+    const book = await bookService.getBookByID(bookId);
 
     if (!book) {
       return sendResponse(res, 404, false, 'No books found');
@@ -59,28 +59,18 @@ const getBookByID = asyncHandler(async (req, res, next) => {
   }
 });
 
-// Get a book by title
-const getBookByTitle = asyncHandler(async (req, res, next) => {
-  const title = req.params.title;
-
+/**
+ * Create a new book for the authenticated user
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ * @returns {Body} New book details.
+ * @throws {Error} Throws an error if there's an issue fetching the book data.
+ */
+exports.addBook = asyncHandler(async (req, res, next) => {
   try {
-    const books = await Book.find({
-      title: { $regex: new RegExp(title, 'i') },
-    });
-
-    if (books.length === 0) {
-      return sendResponse(res, 404, false, 'No books found');
-    }
-
-    return sendResponse(res, 200, true, 'Books retrieved successfully', books);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// Create a new book for the authenticated user
-const addBook = asyncHandler(async (req, res, next) => {
-  try {
+    // Extract book data from the request body
     const {
       title,
       description,
@@ -97,8 +87,8 @@ const addBook = asyncHandler(async (req, res, next) => {
       pages,
     } = req.body;
 
+    // Prepare book data object
     const bookData = {
-      // user: req.user.id,
       title,
       description,
       price,
@@ -114,15 +104,24 @@ const addBook = asyncHandler(async (req, res, next) => {
       publisher,
     };
 
-    const book = await Book.create(bookData);
+    const book = await bookService.createBook(bookData);
     return sendResponse(res, 201, true, 'Book created successfully', book);
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
-// Update book
-const updateBook = asyncHandler(async (req, res, next) => {
+
+/**
+ * Update an existing book for the authenticated user
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ * @returns {Body} Updated book details.
+ * @throws {Error} Throws an error if there's an issue updating the book data.
+ */
+exports.updateBook = asyncHandler(async (req, res, next) => {
   try {
     const {
       id,
@@ -134,12 +133,13 @@ const updateBook = asyncHandler(async (req, res, next) => {
       thumbnail,
       publishYear,
     } = req.body;
-
     const book = await Book.findById(id).lean();
+
     if (!book) {
       return sendResponse(res, 404, false, 'Book not found');
     }
 
+    // Check if the authenticated user has permission to update this book
     if (book.user.toString() !== req.user.id) {
       return sendResponse(
         res,
@@ -149,6 +149,7 @@ const updateBook = asyncHandler(async (req, res, next) => {
       );
     }
 
+    // Update the book with the provided data
     await Book.updateOne(
       { _id: id },
       { title, price, rating, featured, author, thumbnail, publishYear }
@@ -160,8 +161,16 @@ const updateBook = asyncHandler(async (req, res, next) => {
   }
 });
 
-// Delete book
-const deleteBook = asyncHandler(async (req, res, next) => {
+/**
+ * Delete a book for the authenticated user
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ * @returns {Body} Deleted book details.
+ * @throws {Error} Throws an error if there's an issue deleting the book data.
+ */
+exports.deleteBook = asyncHandler(async (req, res, next) => {
   try {
     const book = await Book.findById(req.params.id);
 
@@ -169,6 +178,7 @@ const deleteBook = asyncHandler(async (req, res, next) => {
       return sendResponse(res, 404, true, 'Book not found');
     }
 
+    // Check if the authenticated user has permission to delete this book
     if (book.user.toString() !== req.user.id) {
       return sendResponse(
         res,
@@ -178,6 +188,7 @@ const deleteBook = asyncHandler(async (req, res, next) => {
       );
     }
 
+    // Delete the book and return the deleted book details
     const deletedBook = await Book.findByIdAndRemove(req.params.id, req.body, {
       new: true,
     });
@@ -187,32 +198,28 @@ const deleteBook = asyncHandler(async (req, res, next) => {
   }
 });
 
-// Search books by title
-const searchBook = asyncHandler(async (req, res, next) => {
+/**
+ * Search books by title and/or author
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ * @returns {Body} Retrieved books matching the search criteria.
+ * @throws {Error} Throws an error if there's an issue searching for books.
+ */
+exports.searchBook = asyncHandler(async (req, res, next) => {
   const { title, author } = req.query;
 
   try {
-    const books = await Book.find({
-      title: { $regex: new RegExp(title, 'i') },
-      author: { $regex: new RegExp(author, 'i') },
-    });
+    const books = await bookService.searchBooks(title, author);
 
     if (books.length === 0) {
       return sendResponse(res, 404, false, 'Book not found');
     }
+
     return sendResponse(res, 200, true, 'Books retrieved successfully', books);
   } catch (error) {
     next(error);
   }
 });
 
-module.exports = {
-  getBooks,
-  getBookByID,
-  getBookByTitle,
-  getBooksList,
-  addBook,
-  updateBook,
-  deleteBook,
-  searchBook,
-};
