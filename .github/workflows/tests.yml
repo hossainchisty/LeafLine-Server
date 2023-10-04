@@ -1,4 +1,4 @@
-name: Node.js CI
+name: 🧪Tests
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run tests
         run: npm test
