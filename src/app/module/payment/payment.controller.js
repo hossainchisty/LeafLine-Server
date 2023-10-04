@@ -9,7 +9,7 @@ const stripe = require("stripe")(`${process.env.STRIPE_API_KEY}`);
  * @access  Private
  */
 
-const createOrder = async (req, res, next) => {
+exports.createOrder = async (req, res, next) => {
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -133,6 +133,4 @@ const createOrder = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  createOrder,
-};
+

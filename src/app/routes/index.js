@@ -11,6 +11,8 @@ const analyticsRouters = require('../module/admin/admin.route');
 const wishlistRouters = require('../module/wishlist/wishlist.route');
 const orderRouters = require('../module/order/order.route');
 const reviewRouters = require('../module/review/review.route');
+const paymentRouters = require('../module/payment/payment.route');
+
 
 const moduleRoutes = [
     { path: '/auth', route: authRouters },
@@ -20,6 +22,7 @@ const moduleRoutes = [
     { path: '/wishlist', route: wishlistRouters },
     { path: '/analytics', route: analyticsRouters },
     { path: '/order', route: orderRouters },
+    { path: '/payment', route: paymentRouters },
     { path: '/reviews', route: reviewRouters },
 ];
 
