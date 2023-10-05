@@ -1,3 +1,12 @@
+# [3.25.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.24.3...v3.25.0) (2023-10-05)
+
+
+### Features
+
+* Added total purched orders ([4842430](https://github.com/hossainchisty/LeafLine-Server/commit/4842430d7291e496f0aa0deb98313cd2503867ca))
+
+
+
 ## [3.24.3](https://github.com/hossainchisty/LeafLine-Server/compare/v3.24.2...v3.24.3) (2023-10-05)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Introduce review module ([2f7a7dc](https://github.com/hossainchisty/LeafLine-Server/commit/2f7a7dcca2f33f87d4b30260ed85246a624995e0))
-
-
-
-## [3.23.11](https://github.com/hossainchisty/LeafLine-Server/compare/v2.23.0...v3.23.11) (2023-10-03)
-
-
-### Performance Improvements
-
-* improve codebase remove unused code ([2b7c7ed](https://github.com/hossainchisty/LeafLine-Server/commit/2b7c7edd12e3d17ec4aa066e115b6a590600a89b))
 
 
 
