@@ -60,7 +60,7 @@ exports.getBookByID = async (bookId) => {
       
     ).populate({
       path: 'reviews.user',
-      select: 'full_name',
+      select: 'full_name, avatar',
     }).lean();
     if (!book) {
       throw new Error('Book not found');
