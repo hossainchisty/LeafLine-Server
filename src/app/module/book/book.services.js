@@ -57,7 +57,11 @@ exports.getBookByID = async (bookId) => {
       bookId,
       { $inc: { read: 1 } },
       { new: true }
-    ).lean();
+      
+    ).populate({
+      path: 'reviews.user',
+      select: 'full_name',
+    }).lean();
     if (!book) {
       throw new Error('Book not found');
     }

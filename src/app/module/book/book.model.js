@@ -73,9 +73,26 @@ const bookSchema = mongoose.Schema(
       unique: true,
       required: true,
     },
+    reviews: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        rating: {
+          type: Number,
+          required: false,
+        },
+        comment: {
+          type: String,
+          required: false,
+        },
+      },
+    ],
     language: { type: String, required: true },
     pages: { type: String, required: true },
     publisher: { type: String, required: true },
+    
   },
   { timestamps: true, versionKey: false }
   
