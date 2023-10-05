@@ -29,3 +29,4 @@ TODO.MD
 .vscode
 config/db.js
 logs/access.log
+src/logs/access.log
