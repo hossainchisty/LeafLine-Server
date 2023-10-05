@@ -1,3 +1,12 @@
+## [3.24.2](https://github.com/hossainchisty/LeafLine-Server/compare/v3.24.1...v3.24.2) (2023-10-05)
+
+
+### Bug Fixes
+
+* include avatar of users ([98fd851](https://github.com/hossainchisty/LeafLine-Server/commit/98fd851b245fd563b869009568e685e45ee8edab))
+
+
+
 ## [3.24.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.24.0...v3.24.1) (2023-10-04)
 
 
@@ -47,15 +56,6 @@
 ### Performance Improvements
 
 * improve maintainablity ([5a6f9f0](https://github.com/hossainchisty/LeafLine-Server/commit/5a6f9f0ec7769d1ff258ada99448982fbef3b132))
-
-
-
-# [2.22.0](https://github.com/hossainchisty/LeafLine-Server/compare/v1.21.0...v2.22.0) (2023-09-25)
-
-
-### Features
-
-* Addon after buy products remove carts item ([ea4a4ae](https://github.com/hossainchisty/LeafLine-Server/commit/ea4a4ae38557e15a6b1d539fb98674ee10a29c9f))
 
 
 
