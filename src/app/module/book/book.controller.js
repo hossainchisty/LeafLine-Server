@@ -89,6 +89,12 @@ exports.addBook = asyncHandler(async (req, res, next) => {
       pages,
     } = req.body;
 
+     // Extract stock data from the request body
+     const {
+      inStock,
+      remainingStock,
+    } = req.body.stock || {};
+
     // Prepare book data object
     const bookData = {
       title,
@@ -105,6 +111,10 @@ exports.addBook = asyncHandler(async (req, res, next) => {
       pages,
       language,
       publisher,
+      stock: {
+        inStock,
+        remainingStock,
+      },
     };
 
     const book = await bookService.createBook(bookData);
