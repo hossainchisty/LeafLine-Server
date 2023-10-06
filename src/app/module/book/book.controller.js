@@ -89,11 +89,13 @@ exports.addBook = asyncHandler(async (req, res, next) => {
       pages,
     } = req.body;
 
-     // Extract stock data from the request body
-     const {
-      inStock,
-      remainingStock,
-    } = req.body.stock || {};
+    // Extract stock data from the request body
+    const { inStock, remainingStock } = req.body.stock || {};
+
+    // set inStock to false if remainingStock is 0
+    if (remainingStock === 0) {
+      inStock = false;
+    }
 
     // Prepare book data object
     const bookData = {
@@ -123,7 +125,6 @@ exports.addBook = asyncHandler(async (req, res, next) => {
     next(error);
   }
 });
-
 
 /**
  * Update an existing book for the authenticated user
