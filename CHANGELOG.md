@@ -1,3 +1,12 @@
+## [3.25.3](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.2...v3.25.3) (2023-10-06)
+
+
+### Bug Fixes
+
+* Ensure Proper Initialization of Stock Information When Adding Books ([0e5a5e6](https://github.com/hossainchisty/LeafLine-Server/commit/0e5a5e639074e1b2eba9d889dbe3fed1c3509610)), closes [#8](https://github.com/hossainchisty/LeafLine-Server/issues/8) [#8](https://github.com/hossainchisty/LeafLine-Server/issues/8)
+
+
+
 ## [3.25.2](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.1...v3.25.2) (2023-10-06)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * remove extra ```,``` ([e0880ac](https://github.com/hossainchisty/LeafLine-Server/commit/e0880ac353c9b2db9553ce917a95844a1b2030e1))
-
-
-
-## [3.24.2](https://github.com/hossainchisty/LeafLine-Server/compare/v3.24.1...v3.24.2) (2023-10-05)
-
-
-### Bug Fixes
-
-* include avatar of users ([98fd851](https://github.com/hossainchisty/LeafLine-Server/commit/98fd851b245fd563b869009568e685e45ee8edab))
 
 
 
