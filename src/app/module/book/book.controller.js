@@ -90,7 +90,7 @@ exports.addBook = asyncHandler(async (req, res, next) => {
     } = req.body;
 
     // Extract stock data from the request body
-    const { inStock, remainingStock } = req.body.stock || {};
+    let { inStock, remainingStock } = req.body.stock || {};
 
     // set inStock to false if remainingStock is 0
     if (remainingStock === 0) {
