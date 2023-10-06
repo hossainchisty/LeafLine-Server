@@ -1,3 +1,12 @@
+## [3.25.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.0...v3.25.1) (2023-10-06)
+
+
+### Bug Fixes
+
+* book schema new fields ([6db5983](https://github.com/hossainchisty/LeafLine-Server/commit/6db5983f39113f9cc489da6a8ca07acb77c70e9e))
+
+
+
 # [3.25.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.24.3...v3.25.0) (2023-10-05)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * change npm install type ([fc0967e](https://github.com/hossainchisty/LeafLine-Server/commit/fc0967ee9d75675a73c8d110c9033db155e22caa))
-
-
-
-# [3.24.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.23.11...v3.24.0) (2023-10-04)
-
-
-### Features
-
-* Introduce review module ([2f7a7dc](https://github.com/hossainchisty/LeafLine-Server/commit/2f7a7dcca2f33f87d4b30260ed85246a624995e0))
 
 
 
