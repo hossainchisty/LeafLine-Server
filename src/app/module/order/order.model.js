@@ -1,5 +1,14 @@
-const shortid = require("shortid");
 const mongoose = require("mongoose");
+
+// Custom ID generation function
+function generateId() {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let customId = "";
+  for (let i = 0; i < 8; i++) {
+    customId += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return customId;
+}
 
 // Order Schema Definition
 
@@ -55,13 +64,13 @@ const orderSchema = mongoose.Schema(
     trackingNumber: {
       type: String,
       unique: true,
-      default: () => shortid.generate(),
+      default: () => `LLTN-${generateId()}`,
       indexed: true,
     },
     transactionId: {
       type: String,
       unique: true,
-      default: () => shortid.generate(),
+      default: () => generateId(),
       indexed: true,
     },
     delivereAt: {
@@ -75,7 +84,7 @@ const orderSchema = mongoose.Schema(
 // Middleware to generate custom transactionId
 orderSchema.pre("save", function (next) {
   if (!this.transactionId) {
-    this.transactionId = shortid.generate();
+    this.transactionId = generateId();
   }
   next();
 });
@@ -83,7 +92,7 @@ orderSchema.pre("save", function (next) {
 // Middleware to generate custom trackingNumber
 orderSchema.pre("save", function (next) {
   if (!this.trackingNumber) {
-    this.trackingNumber = `LLTN-${shortid.generate()}`;
+    this.trackingNumber = `LLTN-${generateId()}`;
   }
   next();
 });
