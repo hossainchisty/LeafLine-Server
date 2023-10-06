@@ -1,3 +1,12 @@
+## [3.25.2](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.1...v3.25.2) (2023-10-06)
+
+
+### Bug Fixes
+
+* Missing Stock When Adding Books via API ([a9c2481](https://github.com/hossainchisty/LeafLine-Server/commit/a9c248154acedffa29c381da96b2b8fe1d36b509)), closes [#10](https://github.com/hossainchisty/LeafLine-Server/issues/10)
+
+
+
 ## [3.25.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.0...v3.25.1) (2023-10-06)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * include avatar of users ([98fd851](https://github.com/hossainchisty/LeafLine-Server/commit/98fd851b245fd563b869009568e685e45ee8edab))
-
-
-
-## [3.24.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.24.0...v3.24.1) (2023-10-04)
-
-
-### Bug Fixes
-
-* change npm install type ([fc0967e](https://github.com/hossainchisty/LeafLine-Server/commit/fc0967ee9d75675a73c8d110c9033db155e22caa))
 
 
 
