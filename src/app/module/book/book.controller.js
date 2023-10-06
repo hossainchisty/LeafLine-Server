@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Book = require('../book/book.model');
 const bookService = require('./book.services');
 const { sendResponse } = require('../../../services/responseService');
+// const client = require('../../../config/redisConfig');
 
 /**
  * Retrieves a paginated list of books from the database.
@@ -75,12 +76,13 @@ exports.addBook = asyncHandler(async (req, res, next) => {
       title,
       description,
       price,
+      shippingFees,
+      genre,
       rating,
       featured,
       author,
       thumbnail,
-      publishYear,
-      publishDate,
+      publishTime,
       ISBN,
       language,
       publisher,
@@ -92,12 +94,13 @@ exports.addBook = asyncHandler(async (req, res, next) => {
       title,
       description,
       price,
+      shippingFees,
+      genre,
       rating,
       featured,
       author,
       thumbnail,
-      publishYear,
-      publishDate,
+      publishTime,
       ISBN,
       pages,
       language,
@@ -131,7 +134,7 @@ exports.updateBook = asyncHandler(async (req, res, next) => {
       featured,
       author,
       thumbnail,
-      publishYear,
+      publishTime,
     } = req.body;
     const book = await Book.findById(id).lean();
 
@@ -152,7 +155,7 @@ exports.updateBook = asyncHandler(async (req, res, next) => {
     // Update the book with the provided data
     await Book.updateOne(
       { _id: id },
-      { title, price, rating, featured, author, thumbnail, publishYear }
+      { title, price, rating, featured, author, thumbnail, publishTime }
     );
 
     return sendResponse(res, 200, true, 'Book updated successfully');
@@ -222,4 +225,3 @@ exports.searchBook = asyncHandler(async (req, res, next) => {
     next(error);
   }
 });
-

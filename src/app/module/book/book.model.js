@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Book Schema Definition
 
@@ -7,13 +7,13 @@ const bookSchema = mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: false,
-      ref: "User",
+      ref: 'User',
     },
     title: {
       type: String,
       trim: true,
       indexedDB: true,
-      required: [true, "Please add a text value"],
+      required: [true, 'Please add a text value'],
     },
     genre: {
       type: String,
@@ -24,7 +24,7 @@ const bookSchema = mongoose.Schema(
     description: {
       type: String,
       trim: true,
-      required: [false, "Please add a text value"],
+      required: [false, 'Please add a text value'],
     },
     thumbnail: {
       trim: true,
@@ -33,6 +33,7 @@ const bookSchema = mongoose.Schema(
     price: { type: Number, required: true, trim: true },
     shippingFees: {
       type: Number,
+      default: 0 
     },
     stock: {
       inStock: {
@@ -53,39 +54,32 @@ const bookSchema = mongoose.Schema(
     averageRating: {
       type: Number,
       required: false,
+      default: 0,
     },
     featured: {
       type: Boolean,
       required: false,
       indexedDB: true,
     },
-    read: { type: Number },
-    publishYear: {
+    read: { type: Number, default: 0 },
+    publishTime: {
       type: Number,
-      required: false,
-    },
-    publishDate: {
-      type: Number,
-      required: false,
+      required: true,
     },
     ISBN: {
       type: String,
       unique: true,
-      required: true,
+      required: false,
     },
     language: { type: String, required: true },
     pages: { type: String, required: true },
     publisher: { type: String, required: true },
   },
   { timestamps: true, versionKey: false }
-  
 );
 
 // Static methods to the schema for filtering and sorting
-bookSchema.statics.filterAndSort = async function (
-  filterOptions,
-  sortOptions,
-) {
+bookSchema.statics.filterAndSort = async function (filterOptions, sortOptions) {
   const query = this.find();
 
   if (filterOptions) {
@@ -112,20 +106,20 @@ bookSchema.statics.filterAndSort = async function (
 
   if (sortOptions) {
     switch (sortOptions.price) {
-      case "asc":
+      case 'asc':
         query.sort({ price: 1 });
         break;
-      case "desc":
+      case 'desc':
         query.sort({ price: -1 });
         break;
       default:
     }
 
     switch (sortOptions.popularity) {
-      case "asc":
+      case 'asc':
         query.sort({ reviews: 1 });
         break;
-      case "desc":
+      case 'desc':
         query.sort({ reviews: -1 });
         break;
       default:
@@ -135,6 +129,6 @@ bookSchema.statics.filterAndSort = async function (
   return await query.lean().exec();
 };
 
-const Book = mongoose.model("Book", bookSchema);
+const Book = mongoose.model('Book', bookSchema);
 
 module.exports = Book;
