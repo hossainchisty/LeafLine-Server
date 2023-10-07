@@ -236,3 +236,24 @@ exports.searchBook = asyncHandler(async (req, res, next) => {
     next(error);
   }
 });
+
+/**
+ * Reading status of a book
+ * Allow users to mark books as "Currently Reading," "Read," or "To Read."
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response indicating the success or failure of the operation.
+ */
+
+exports.updateReadingStatusController = asyncHandler(async (req, res, next) => {
+  const { bookId } = req.params;
+  const { readingStatus } = req.body;
+
+  try {
+    const updatedBook = await bookService.updateReadingStatus(bookId, readingStatus);
+    return sendResponse(res, 200, true, 'Reading status updated successfully', updatedBook);
+  } catch (error) {
+    next(error);
+  }
+});

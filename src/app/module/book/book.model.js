@@ -87,6 +87,11 @@ const bookSchema = mongoose.Schema(
         },
       },
     ],
+    readingStatus: {
+      type: String,
+      enum: ['Currently Reading', 'Read', 'To Read'],
+      default: 'To Read',
+    },
     language: { type: String, required: true },
     pages: { type: String, required: true },
     publisher: { type: String, required: true },
