@@ -1,3 +1,13 @@
+# [3.26.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.4...v3.26.0) (2023-10-07)
+
+
+### Features
+
+* **api:** add API endpoint to update reading status of a book ([9c934ae](https://github.com/hossainchisty/LeafLine-Server/commit/9c934ae7192120db9e2bdccab4ee1f5915aec9c8))
+* **api:** handle PUT requests to update reading status of a book ([77fb85d](https://github.com/hossainchisty/LeafLine-Server/commit/77fb85d7d135a1b7104035e6256186d1233407e6))
+
+
+
 ## [3.25.4](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.3...v3.25.4) (2023-10-06)
 
 
@@ -31,15 +41,6 @@
 ### Bug Fixes
 
 * book schema new fields ([6db5983](https://github.com/hossainchisty/LeafLine-Server/commit/6db5983f39113f9cc489da6a8ca07acb77c70e9e))
-
-
-
-# [3.25.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.24.3...v3.25.0) (2023-10-05)
-
-
-### Features
-
-* Added total purched orders ([4842430](https://github.com/hossainchisty/LeafLine-Server/commit/4842430d7291e496f0aa0deb98313cd2503867ca))
 
 
 
