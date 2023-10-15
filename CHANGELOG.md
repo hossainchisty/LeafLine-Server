@@ -1,3 +1,12 @@
+## [3.26.2](https://github.com/hossainchisty/LeafLine-Server/compare/v3.26.1...v3.26.2) (2023-10-15)
+
+
+### Performance Improvements
+
+* Add vakudatuib nessage for better exps ([d304704](https://github.com/hossainchisty/LeafLine-Server/commit/d304704015777ea76d9ecdd4441db2d96c716f97))
+
+
+
 ## [3.26.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.26.0...v3.26.1) (2023-10-15)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * Ensure Proper Initialization of Stock Information When Adding Books ([0e5a5e6](https://github.com/hossainchisty/LeafLine-Server/commit/0e5a5e639074e1b2eba9d889dbe3fed1c3509610)), closes [#8](https://github.com/hossainchisty/LeafLine-Server/issues/8) [#8](https://github.com/hossainchisty/LeafLine-Server/issues/8)
-
-
-
-## [3.25.2](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.1...v3.25.2) (2023-10-06)
-
-
-### Bug Fixes
-
-* Missing Stock When Adding Books via API ([a9c2481](https://github.com/hossainchisty/LeafLine-Server/commit/a9c248154acedffa29c381da96b2b8fe1d36b509)), closes [#10](https://github.com/hossainchisty/LeafLine-Server/issues/10)
 
 
 
