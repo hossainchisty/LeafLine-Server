@@ -1,3 +1,22 @@
+## [3.26.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.26.0...v3.26.1) (2023-10-15)
+
+
+### Bug Fixes
+
+* readingStatus: `` is not a valid enum value for path `readingStatus`. ([95a6c24](https://github.com/hossainchisty/LeafLine-Server/commit/95a6c2492190605ae51c429d6b469b43bd39c2db))
+
+
+
+# [3.26.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.4...v3.26.0) (2023-10-07)
+
+
+### Features
+
+* **api:** add API endpoint to update reading status of a book ([9c934ae](https://github.com/hossainchisty/LeafLine-Server/commit/9c934ae7192120db9e2bdccab4ee1f5915aec9c8))
+* **api:** handle PUT requests to update reading status of a book ([77fb85d](https://github.com/hossainchisty/LeafLine-Server/commit/77fb85d7d135a1b7104035e6256186d1233407e6))
+
+
+
 ## [3.25.4](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.3...v3.25.4) (2023-10-06)
 
 
@@ -22,24 +41,6 @@
 ### Bug Fixes
 
 * Missing Stock When Adding Books via API ([a9c2481](https://github.com/hossainchisty/LeafLine-Server/commit/a9c248154acedffa29c381da96b2b8fe1d36b509)), closes [#10](https://github.com/hossainchisty/LeafLine-Server/issues/10)
-
-
-
-## [3.25.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.0...v3.25.1) (2023-10-06)
-
-
-### Bug Fixes
-
-* book schema new fields ([6db5983](https://github.com/hossainchisty/LeafLine-Server/commit/6db5983f39113f9cc489da6a8ca07acb77c70e9e))
-
-
-
-# [3.25.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.24.3...v3.25.0) (2023-10-05)
-
-
-### Features
-
-* Added total purched orders ([4842430](https://github.com/hossainchisty/LeafLine-Server/commit/4842430d7291e496f0aa0deb98313cd2503867ca))
 
 
 

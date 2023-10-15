@@ -10,5 +10,6 @@ router.get('/list', bookController.getBooksList);
 router.get('/search', bookController.searchBook);
 router.get('/:id', bookController.getBookByID);
 router.delete('/:id', bookController.deleteBook);
+router.put('/:bookId/reading-status', bookController.updateReadingStatusController);
 
 module.exports = router;

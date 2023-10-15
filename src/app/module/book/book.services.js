@@ -166,3 +166,20 @@ exports.getBookByISBN = async ISBN => {
     throw new Error('Error retrieving book by ISBN: ' + error.message);
   }
 };
+
+/**
+ * Updates the reading status of a book.
+ *
+ * @param {string} bookId - The unique identifier of the book to be updated.
+ * @param {string} readingStatus - The new reading status to be set ('Currently Reading', 'Read', 'To Read').
+ * @returns {Promise<Object>} A Promise that resolves to the updated book object.
+ * @throws {Error} Throws an error if there's an issue updating the reading status.
+ */
+exports.updateReadingStatus = async (bookId, readingStatus) => {
+  try {
+    const book = await Book.findByIdAndUpdate(bookId, { readingStatus }, { new: true });
+    return book;
+  } catch (error) {
+    throw new Error('Error updating reading status');
+  }
+};
