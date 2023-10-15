@@ -12,7 +12,7 @@ const Book = require('../book/book.model');
  * const books = await getBooksByUserId(userId);
  * // books: [{...}, {...}, ...]
  */
-exports.getBooksByUserId = async (userId) => {
+exports.getBooksByUserId = async userId => {
   try {
     // Fetch books from the database for the given user ID, sorting them by creation date.
     const books = await Book.find({ user: userId }).sort({ createdAt: -1 });
@@ -51,17 +51,18 @@ exports.getBooksList = async (page = 1) => {
  * @returns {Object} Retrieved book details.
  * @throws {Error} Throws an error if there's an issue fetching the book data.
  */
-exports.getBookByID = async (bookId) => {
+exports.getBookByID = async bookId => {
   try {
     const book = await Book.findByIdAndUpdate(
       bookId,
       { $inc: { read: 1 } },
       { new: true }
-      
-    ).populate({
-      path: 'reviews.user',
-      select: 'full_name avatar',
-    }).lean();
+    )
+      .populate({
+        path: 'reviews.user',
+        select: 'full_name avatar',
+      })
+      .lean();
     if (!book) {
       throw new Error('Book not found');
     }
@@ -98,7 +99,7 @@ exports.searchBooks = async (title, author) => {
  * @returns {Object} Created book details.
  * @throws {Error} Throws an error if there's an issue creating the book.
  */
-exports.createBook = async (bookData) => {
+exports.createBook = async bookData => {
   try {
     const book = await Book.create(bookData);
     return book;
@@ -136,7 +137,7 @@ exports.updateBook = async (bookId, updatedData) => {
  * @returns {Object} Deleted book details.
  * @throws {Error} Throws an error if there's an issue deleting the book.
  */
-exports.deleteBook = async (bookId) => {
+exports.deleteBook = async bookId => {
   try {
     const book = await Book.findByIdAndRemove(bookId, { new: true });
     if (!book) {
@@ -145,5 +146,23 @@ exports.deleteBook = async (bookId) => {
     return book;
   } catch (error) {
     throw new Error('Error deleting book');
+  }
+};
+
+/**
+ * @function getBookByISBN
+ * @description Retrieves a book from the database based on its ISBN.
+ *
+ * @param {string} ISBN - The ISBN of the book to retrieve.
+ * @returns {Promise} A promise that resolves to the found book or null if not found.
+ * @throws Will throw an error if there's an issue with the database query.
+ */
+exports.getBookByISBN = async ISBN => {
+  try {
+    // Use the Book model to find a book with the specified ISBN in the database
+    const book = await Book.findOne({ ISBN: ISBN }).exec();
+    return book;
+  } catch (error) {
+    throw new Error('Error retrieving book by ISBN: ' + error.message);
   }
 };
