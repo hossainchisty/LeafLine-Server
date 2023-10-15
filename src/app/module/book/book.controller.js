@@ -97,6 +97,38 @@ exports.addBook = asyncHandler(async (req, res, next) => {
       inStock = false;
     }
 
+    // Validate Fields
+    if (!title) {
+      return sendResponse(res, 400, false, 'Title is required');
+    }
+
+    if (!description) {
+      return sendResponse(res, 400, false, 'Description is required');
+    }
+
+    if (!price || isNaN(price) || price <= 0) {
+      return sendResponse(res, 400, false, 'Price must be a positive number');
+    }
+
+    if (!shippingFees || isNaN(shippingFees) || shippingFees < 0) {
+      return sendResponse(
+        res,
+        400,
+        false,
+        'Shipping fees must be a non-negative number'
+      );
+    }
+
+    // Check if ISBN already exists in the database
+    const existingBook = await bookService.getBookByISBN(ISBN);
+    if (existingBook) {
+      return sendResponse(
+        res,
+        400,
+        false,
+        'Book with this ISBN already exists'
+      );
+    }
     // Prepare book data object
     const bookData = {
       title,
