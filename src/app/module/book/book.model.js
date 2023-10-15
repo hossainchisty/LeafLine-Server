@@ -90,7 +90,7 @@ const bookSchema = mongoose.Schema(
     readingStatus: {
       type: String,
       enum: ['Currently Reading', 'Read', 'To Read'],
-      default: '',
+      required: false,
     },
     language: { type: String, required: true },
     pages: { type: String, required: true },
