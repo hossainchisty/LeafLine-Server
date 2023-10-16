@@ -1,3 +1,12 @@
+# [3.27.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.26.2...v3.27.0) (2023-10-16)
+
+
+### Features
+
+* Add Get book by ISBN ([cf34983](https://github.com/hossainchisty/LeafLine-Server/commit/cf34983e048a1487c666e2570a02731c6c83089f)), closes [#21](https://github.com/hossainchisty/LeafLine-Server/issues/21)
+
+
+
 ## [3.26.2](https://github.com/hossainchisty/LeafLine-Server/compare/v3.26.1...v3.26.2) (2023-10-15)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * constant error ([4abec74](https://github.com/hossainchisty/LeafLine-Server/commit/4abec743fca000090c3f913cd5cf663143db37d7))
-
-
-
-## [3.25.3](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.2...v3.25.3) (2023-10-06)
-
-
-### Bug Fixes
-
-* Ensure Proper Initialization of Stock Information When Adding Books ([0e5a5e6](https://github.com/hossainchisty/LeafLine-Server/commit/0e5a5e639074e1b2eba9d889dbe3fed1c3509610)), closes [#8](https://github.com/hossainchisty/LeafLine-Server/issues/8) [#8](https://github.com/hossainchisty/LeafLine-Server/issues/8)
 
 
 
