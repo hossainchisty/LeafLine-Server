@@ -9,6 +9,7 @@ router.route('/').post(bookController.addBook, authMiddleware).put(bookControlle
 router.get('/list', bookController.getBooksList);
 router.get('/search', bookController.searchBook);
 router.get('/:id', bookController.getBookByID);
+router.get('/:id', bookController.bookByISBN);
 router.delete('/:id', bookController.deleteBook);
 router.put('/:bookId/reading-status', bookController.updateReadingStatusController);
 
