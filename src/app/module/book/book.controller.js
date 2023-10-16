@@ -159,6 +159,35 @@ exports.addBook = asyncHandler(async (req, res, next) => {
 });
 
 /**
+ * Get book by ISBN
+ *
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ * @returns {Params} ISBN number
+ * @throws {Error} Throws an error if there's an issue fetching the book data.
+ */
+exports.bookByISBN = asyncHandler(async (req, res, next) => {
+  try {
+    const { ISBN } = req.params.id;
+
+    // Check if ISBN already exists in the database
+    const existingBook = await bookService.getBookByISBN(ISBN);
+    if (existingBook) {
+      return sendResponse(
+        res,
+        200,
+        true,
+        existingBook,
+        'Book fetched successfully'
+      );
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
  * Update an existing book for the authenticated user
  *
  * @param {Object} req - Express request object.
@@ -283,8 +312,17 @@ exports.updateReadingStatusController = asyncHandler(async (req, res, next) => {
   const { readingStatus } = req.body;
 
   try {
-    const updatedBook = await bookService.updateReadingStatus(bookId, readingStatus);
-    return sendResponse(res, 200, true, 'Reading status updated successfully', updatedBook);
+    const updatedBook = await bookService.updateReadingStatus(
+      bookId,
+      readingStatus
+    );
+    return sendResponse(
+      res,
+      200,
+      true,
+      'Reading status updated successfully',
+      updatedBook
+    );
   } catch (error) {
     next(error);
   }
