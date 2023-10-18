@@ -1,3 +1,12 @@
+# [3.28.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.27.0...v3.28.0) (2023-10-18)
+
+
+### Features
+
+* Get monthly sales from the orders by aggregating the data based on the order creation dates ([61db39c](https://github.com/hossainchisty/LeafLine-Server/commit/61db39c0e17c9fa08e73e42c37001a50d1ca1f11)), closes [#27](https://github.com/hossainchisty/LeafLine-Server/issues/27)
+
+
+
 # [3.27.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.26.2...v3.27.0) (2023-10-16)
 
 
@@ -32,15 +41,6 @@
 
 * **api:** add API endpoint to update reading status of a book ([9c934ae](https://github.com/hossainchisty/LeafLine-Server/commit/9c934ae7192120db9e2bdccab4ee1f5915aec9c8))
 * **api:** handle PUT requests to update reading status of a book ([77fb85d](https://github.com/hossainchisty/LeafLine-Server/commit/77fb85d7d135a1b7104035e6256186d1233407e6))
-
-
-
-## [3.25.4](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.3...v3.25.4) (2023-10-06)
-
-
-### Bug Fixes
-
-* constant error ([4abec74](https://github.com/hossainchisty/LeafLine-Server/commit/4abec743fca000090c3f913cd5cf663143db37d7))
 
 
 
