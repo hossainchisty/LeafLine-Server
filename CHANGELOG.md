@@ -1,3 +1,12 @@
+# [3.29.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.28.0...v3.29.0) (2024-01-19)
+
+
+### Features
+
+* Intregrate api monitoring with treblle ([8837014](https://github.com/hossainchisty/LeafLine-Server/commit/8837014a7d8c2d8d8039539821f0c8e42a897aa9))
+
+
+
 # [3.28.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.27.0...v3.28.0) (2023-10-18)
 
 
@@ -31,16 +40,6 @@
 ### Bug Fixes
 
 * readingStatus: `` is not a valid enum value for path `readingStatus`. ([95a6c24](https://github.com/hossainchisty/LeafLine-Server/commit/95a6c2492190605ae51c429d6b469b43bd39c2db))
-
-
-
-# [3.26.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.25.4...v3.26.0) (2023-10-07)
-
-
-### Features
-
-* **api:** add API endpoint to update reading status of a book ([9c934ae](https://github.com/hossainchisty/LeafLine-Server/commit/9c934ae7192120db9e2bdccab4ee1f5915aec9c8))
-* **api:** handle PUT requests to update reading status of a book ([77fb85d](https://github.com/hossainchisty/LeafLine-Server/commit/77fb85d7d135a1b7104035e6256186d1233407e6))
 
 
 
