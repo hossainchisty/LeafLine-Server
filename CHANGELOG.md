@@ -1,3 +1,12 @@
+## [3.29.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.29.0...v3.29.1) (2024-01-21)
+
+
+### Bug Fixes
+
+* change sales start end year ([6c509ec](https://github.com/hossainchisty/LeafLine-Server/commit/6c509ec0d17893947c7c17806c233372f0fc7ea2))
+
+
+
 # [3.29.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.28.0...v3.29.0) (2024-01-19)
 
 
@@ -31,15 +40,6 @@
 ### Performance Improvements
 
 * Add vakudatuib nessage for better exps ([d304704](https://github.com/hossainchisty/LeafLine-Server/commit/d304704015777ea76d9ecdd4441db2d96c716f97))
-
-
-
-## [3.26.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.26.0...v3.26.1) (2023-10-15)
-
-
-### Bug Fixes
-
-* readingStatus: `` is not a valid enum value for path `readingStatus`. ([95a6c24](https://github.com/hossainchisty/LeafLine-Server/commit/95a6c2492190605ae51c429d6b469b43bd39c2db))
 
 
 
