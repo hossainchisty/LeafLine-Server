@@ -1,3 +1,12 @@
+# [3.30.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.29.1...v3.30.0) (2024-01-27)
+
+
+### Features
+
+* Added generate number helper func ([2a663c7](https://github.com/hossainchisty/LeafLine-Server/commit/2a663c732ae1ca0b503254be2619ec224a2465e6))
+
+
+
 ## [3.29.1](https://github.com/hossainchisty/LeafLine-Server/compare/v3.29.0...v3.29.1) (2024-01-21)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Add Get book by ISBN ([cf34983](https://github.com/hossainchisty/LeafLine-Server/commit/cf34983e048a1487c666e2570a02731c6c83089f)), closes [#21](https://github.com/hossainchisty/LeafLine-Server/issues/21)
-
-
-
-## [3.26.2](https://github.com/hossainchisty/LeafLine-Server/compare/v3.26.1...v3.26.2) (2023-10-15)
-
-
-### Performance Improvements
-
-* Add vakudatuib nessage for better exps ([d304704](https://github.com/hossainchisty/LeafLine-Server/commit/d304704015777ea76d9ecdd4441db2d96c716f97))
 
 
 
