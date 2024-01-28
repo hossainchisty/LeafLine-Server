@@ -30,11 +30,7 @@ const bookSchema = mongoose.Schema(
       trim: true,
       type: String,
     },
-    price: { type: Number, required: true, trim: true },
-    shippingFees: {
-      type: Number,
-      default: 0 
-    },
+    price: { type: Number, required: true },
     stock: {
       inStock: {
         type: Boolean,
