@@ -15,46 +15,36 @@ exports.createOrder = async (req, res, next) => {
   session.startTransaction();
 
   try {
-    const { bookId, quantity, shippingAddress, shippingPrice } = req.body;
+    const { books, shippingAddress, shippingPrice } = req.body;
 
     // Basic Validation
-    if (!bookId) {
+    if (!books || !Array.isArray(books) || books.length === 0) {
       return res.status(400).json({
         statusCode: 400,
         message: 'Validation error',
         errors: [
           {
-            field: 'bookId',
-            message: 'bookId field is required',
+            field: 'books',
+            message: 'Books array is required and must not be empty',
           },
         ],
       });
     }
 
-    if (!quantity || quantity <= 0) {
-      return res.status(400).json({
-        statusCode: 400,
-        message: 'Validation error',
-        errors: [
-          {
-            field: 'quantity',
-            message: 'Quantity must be a positive number',
-          },
-        ],
-      });
-    }
-
-    if (!req.user || !req.user.id) {
-      return res.status(400).json({
-        statusCode: 400,
-        message: 'Validation error',
-        errors: [
-          {
-            field: 'user',
-            message: 'User must need to login',
-          },
-        ],
-      });
+    // Validate each book item
+    for (const bookItem of books) {
+      if (!bookItem.bookId || !bookItem.quantity || bookItem.quantity <= 0) {
+        return res.status(400).json({
+          statusCode: 400,
+          message: 'Validation error',
+          errors: [
+            {
+              field: 'books',
+              message: 'Invalid book item',
+            },
+          ],
+        });
+      }
     }
 
     if (typeof shippingPrice !== 'number' || shippingPrice < 0) {
@@ -70,34 +60,65 @@ exports.createOrder = async (req, res, next) => {
       });
     }
 
-    const book = await Book.findById(bookId);
-    if (!book || !book.price) {
-      return null;
+    // Validate each book item and calculate subTotal
+    let totalPrice = 0;
+    for (const bookItem of books) {
+      const book = await Book.findById(bookItem.bookId);
+      if (!book || !book.price || isNaN(book.price)) {
+        console.error(
+          `Book with ID ${bookItem.bookId} not found or price is invalid`
+        );
+        return res.status(400).json({
+          statusCode: 400,
+          message: 'Book not found or price is invalid',
+        });
+      }
+      if (isNaN(bookItem.quantity) || bookItem.quantity <= 0) {
+        console.error(`Invalid quantity for book ${bookItem.bookId}`);
+        return res.status(400).json({
+          statusCode: 400,
+          message: 'Invalid quantity for one or more books',
+        });
+      }
+      const subTotal = Number(book.price * bookItem.quantity); // Calculate subTotal for each book
+      if (isNaN(subTotal)) {
+        console.error(
+          `Subtotal calculation for book ${bookItem.bookId} resulted in NaN`
+        );
+        return res.status(400).json({
+          statusCode: 400,
+          message: 'Subtotal calculation error for one or more books',
+        });
+      }
+      bookItem.subTotal = subTotal;
+      totalPrice += subTotal; // Add subTotal to totalPrice
     }
-    const pricePerBook = book.price;
 
-    // Ensure quantity is a valid number
-    if (isNaN(quantity) || quantity <= 0) {
-      return null; // Handle invalid quantity
-    }
+    // Add shipping cost
+    totalPrice += shippingPrice;
 
-    // Calculate subtotal
-    const subTotal = pricePerBook * quantity;
+    // Calculate subtotal of all books
+    let totalSubTotal = 0;
+    books.forEach(bookItem => {
+      totalSubTotal += bookItem.subTotal;
+    });
 
-    // Calculate total amount with shipping cost
-    const totalPrice = subTotal + shippingPrice;
-
+    // We need to pass an array for session
     const dataInsert = [
       {
         user: req.user.id,
-        bookId,
-        quantity,
-        subTotal,
+        books: books.map(bookItem => ({
+          bookId: bookItem.bookId,
+          quantity: bookItem.quantity,
+          subTotal: bookItem.subTotal,
+        })),
+        subTotal: totalSubTotal,
         totalPrice,
         shippingAddress,
         shippingPrice,
       },
     ];
+
     // Create the order
     const newOrder = await Order.create(dataInsert, { session });
 
@@ -112,14 +133,12 @@ exports.createOrder = async (req, res, next) => {
       },
     });
 
-    const updateFields = newOrder[0];
+    // // Update the isPaid field on newOrder
+    // newOrder.isPaid = true;
+    // newOrder.paidAt = Date.now();
 
-    // Update the isPaid field on newOrder
-    updateFields.isPaid = true;
-    updateFields.paidAt = Date.now();
-
-    // Save the changes
-    await updateFields.save();
+    // // Save the changes
+    // await newOrder.save();
 
     await session.commitTransaction();
 
