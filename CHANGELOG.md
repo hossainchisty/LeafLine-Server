@@ -1,3 +1,17 @@
+# [3.31.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.30.0...v3.31.0) (2024-02-01)
+
+
+### Bug Fixes
+
+*  error while add to cart ([9ce1dff](https://github.com/hossainchisty/LeafLine-Server/commit/9ce1dff7eb599c19992123219dca5bcdbd56010d))
+
+
+### Features
+
+* Added shipping fees and discount fields for each product ([a0c542a](https://github.com/hossainchisty/LeafLine-Server/commit/a0c542aab71163590cafd095d02ea6111bdb2ddf))
+
+
+
 # [3.30.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.29.1...v3.30.0) (2024-01-27)
 
 
@@ -31,15 +45,6 @@
 ### Features
 
 * Get monthly sales from the orders by aggregating the data based on the order creation dates ([61db39c](https://github.com/hossainchisty/LeafLine-Server/commit/61db39c0e17c9fa08e73e42c37001a50d1ca1f11)), closes [#27](https://github.com/hossainchisty/LeafLine-Server/issues/27)
-
-
-
-# [3.27.0](https://github.com/hossainchisty/LeafLine-Server/compare/v3.26.2...v3.27.0) (2023-10-16)
-
-
-### Features
-
-* Add Get book by ISBN ([cf34983](https://github.com/hossainchisty/LeafLine-Server/commit/cf34983e048a1487c666e2570a02731c6c83089f)), closes [#21](https://github.com/hossainchisty/LeafLine-Server/issues/21)
 
 
 
