@@ -18,7 +18,7 @@ exports.orderLists = async (req, res) => {
       Order.find()
         .sort({ createdAt: -1 })
         .skip(skip)
-        .populate('bookId')
+        .populate('books.bookId')
         .limit(itemsPerPage),
       Order.countDocuments(),
     ]);
