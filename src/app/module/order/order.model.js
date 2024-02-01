@@ -13,23 +13,25 @@ const orderSchema = new mongoose.Schema({
     ref: 'User',
     required: false,
   },
-  books: [{
-    bookId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Book',
-      required: true,
+  books: [
+    {
+      bookId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Book',
+        required: false,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+        min: 1,
+      },
+      subTotal: {
+        type: Number,
+        required: true,
+        min: 0,
+      },
     },
-    quantity: {
-      type: Number,
-      required: true,
-      min: 1,
-    },
-    subTotal: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-  }],
+  ],
   totalPrice: {
     type: Number,
     required: false,
@@ -41,13 +43,18 @@ const orderSchema = new mongoose.Schema({
     postalCode: { type: String, required: true },
     country: { type: String, required: true },
   },
-  shippingPrice: { type: Number, required: true },
   status: {
     type: String,
     enum: ['Processing', 'Shipped', 'Out for Delivery', 'Delivered'],
     default: 'Processing',
   },
-  trackingNumber: { type: String, required: false },
+  trackingNumber: {
+    type: String,
+    require: true,
+    index: true,
+    unique: true,
+    sparse: true,
+  },
   discountAmount: { type: Number, required: false },
   subTotal: { type: Number, required: true },
   totalPrice: { type: Number, required: true },
@@ -58,8 +65,7 @@ const orderSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-
-orderSchema.pre('save', function(next) {
+orderSchema.pre('save', function (next) {
   if (!this.orderId) {
     this.orderId = generateOrderId();
   }
