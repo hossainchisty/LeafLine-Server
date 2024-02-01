@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Order = require('../order/order.model');
 const Book = require('../book/book.model');
+const { sendResponse } = require('../../../services/responseService');
 const stripe = require('stripe')(`${process.env.STRIPE_API_KEY}`);
 
 /**
@@ -15,95 +16,49 @@ exports.createOrder = async (req, res, next) => {
   session.startTransaction();
 
   try {
-    const { books, shippingAddress, shippingPrice } = req.body;
+    const { books, shippingAddress } = req.body;
 
     // Basic Validation
     if (!books || !Array.isArray(books) || books.length === 0) {
       return res.status(400).json({
         statusCode: 400,
-        message: 'Validation error',
-        errors: [
-          {
-            field: 'books',
-            message: 'Books array is required and must not be empty',
-          },
-        ],
+        message: 'Validation error: Books array is required and must not be empty',
       });
     }
 
-    // Validate each book item
-    for (const bookItem of books) {
-      if (!bookItem.bookId || !bookItem.quantity || bookItem.quantity <= 0) {
-        return res.status(400).json({
-          statusCode: 400,
-          message: 'Validation error',
-          errors: [
-            {
-              field: 'books',
-              message: 'Invalid book item',
-            },
-          ],
-        });
-      }
-    }
-
-    if (typeof shippingPrice !== 'number' || shippingPrice < 0) {
-      return res.status(400).json({
-        statusCode: 400,
-        message: 'Validation error',
-        errors: [
-          {
-            field: 'shippingPrice',
-            message: 'Shipping price must be a non-negative number',
-          },
-        ],
-      });
-    }
-
-    // Validate each book item and calculate subTotal
+    // Validate each book item and calculate totals
     let totalPrice = 0;
+    let totalSubTotal = 0;
     for (const bookItem of books) {
       const book = await Book.findById(bookItem.bookId);
-      if (!book || !book.price || isNaN(book.price)) {
-        console.error(
-          `Book with ID ${bookItem.bookId} not found or price is invalid`
-        );
+      if (!book || !book.price) {
         return res.status(400).json({
           statusCode: 400,
           message: 'Book not found or price is invalid',
         });
       }
-      if (isNaN(bookItem.quantity) || bookItem.quantity <= 0) {
-        console.error(`Invalid quantity for book ${bookItem.bookId}`);
+
+      if (!bookItem.quantity || bookItem.quantity <= 0) {
         return res.status(400).json({
           statusCode: 400,
           message: 'Invalid quantity for one or more books',
         });
       }
-      const subTotal = Number(book.price * bookItem.quantity); // Calculate subTotal for each book
+
+      const shippingFees = book.shippingFees || 0;
+      const subTotal = book.price * bookItem.quantity;
       if (isNaN(subTotal)) {
-        console.error(
-          `Subtotal calculation for book ${bookItem.bookId} resulted in NaN`
-        );
         return res.status(400).json({
           statusCode: 400,
           message: 'Subtotal calculation error for one or more books',
         });
       }
+
       bookItem.subTotal = subTotal;
-      totalPrice += subTotal; // Add subTotal to totalPrice
+      totalSubTotal += subTotal;
+      totalPrice += subTotal + shippingFees;
     }
 
-    // Add shipping cost
-    totalPrice += shippingPrice;
-
-    // Calculate subtotal of all books
-    let totalSubTotal = 0;
-    books.forEach(bookItem => {
-      totalSubTotal += bookItem.subTotal;
-    });
-
-    // We need to pass an array for session
     const dataInsert = [
       {
         user: req.user.id,
@@ -115,14 +70,11 @@ exports.createOrder = async (req, res, next) => {
         subTotal: totalSubTotal,
         totalPrice,
         shippingAddress,
-        shippingPrice,
       },
     ];
 
-    // Create the order
     const newOrder = await Order.create(dataInsert, { session });
 
-    // Stripe Payment Intent
     const totalAmountInCents = Math.round(totalPrice * 100);
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalAmountInCents,
@@ -133,16 +85,9 @@ exports.createOrder = async (req, res, next) => {
       },
     });
 
-    // // Update the isPaid field on newOrder
-    // newOrder.isPaid = true;
-    // newOrder.paidAt = Date.now();
-
-    // // Save the changes
-    // await newOrder.save();
-
     await session.commitTransaction();
 
-    res.json({
+    res.status(200).json({
       clientSecret: paymentIntent.client_secret,
     });
   } catch (error) {
@@ -152,3 +97,58 @@ exports.createOrder = async (req, res, next) => {
     session.endSession();
   }
 };
+
+/**
+ * @desc    Confirm Payment with srtipe
+ * @route   /api/v1/payment/confirm
+ * @method  POST
+ * @access  Private
+ */
+
+// exports.confirmStripePayment = async (req, res) => {
+//   try {
+//     // Extract data from request
+//     const { orderId, paymentMethod, clientSecret } = req.body;
+//     const userId = req.user.id;
+
+//     // Validate orderId, paymentMethod, and clientSecret
+//     if (!orderId || !paymentMethod || !clientSecret) {
+//       return sendResponse(res, 400, false, 'Missing required fields');
+//     }
+
+//     // Find the user's order by user ID
+//     const userOrder = await Order.findOne({ user: userId });
+
+//     if (!userOrder) {
+//       return sendResponse(res, 404, false, 'User did not place any orders');
+//     }
+
+//     // Find the specific order in the user's order list
+//     const order = await Order.findOne({ orderId });
+
+//     if (!order) {
+//       return sendResponse(res, 404, false, 'Order not found');
+//     }
+
+//     // Confirm the payment using the client secret and payment method
+//     const paymentIntent = await stripe.paymentIntents.confirm(clientSecret, {
+//       payment_method: paymentMethod,
+//     });
+
+//     if (paymentIntent.status === 'succeeded') {
+//       // Update the payment status of the order to true
+//       order.isPaid = true;
+//       order.paidAt = Date.now();
+
+//       // Save the changes
+//       await order.save();
+
+//       return sendResponse(res, 200, true, 'Payment successful');
+//     } else {
+//       return sendResponse(res, 400, false, 'Payment failed');
+//     }
+//   } catch (error) {
+//     console.error('Error making payment:', error);
+//     return sendResponse(res, 500, false, 'Error making payment');
+//   }
+// };
